@@ -85,7 +85,6 @@ void handle_client(int clientSocket) {
         ssize_t bytesRead = recv(clientSocket, &msgLength, sizeof(int), 0);
         if (bytesRead <= 0) {
             std::wcerr << L"\033[1;31mКлиент отключился или произошла ошибка\033[0m\n";
-            delete[] buffer;
             break;
         }
         if (msgLength == -1) {
