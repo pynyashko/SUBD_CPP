@@ -111,7 +111,8 @@ void Database::loadFromFile(const std::wstring& filename) {
         if (has_id) {
             temp.id = std::stoi(id_str);
             std::getline(iss, name, L'\t');
-        } else {
+        }
+        else {
             temp.id = nextId++;
             name = id_str;
         }
@@ -124,9 +125,9 @@ void Database::loadFromFile(const std::wstring& filename) {
         std::getline(iss, temp.info);
 
         students.push_back(temp);
-        studentsBN.insert(Index{students.size() - 1});
-        studentsBG.insert(Index{students.size() - 1});
-        studentsBR.insert(Index{students.size() - 1});
+        studentsBN.insert(Index{ students.size() - 1 });
+        studentsBG.insert(Index{ students.size() - 1 });
+        studentsBR.insert(Index{ students.size() - 1 });
         if (temp.id >= nextId) nextId = temp.id + 1;
     }
 
@@ -203,7 +204,8 @@ bool Database::matchesCriteria(const Student& student, const std::map<std::wstri
                 if (id < start || id > end) {
                     return false;
                 }
-            } else {
+            }
+            else {
                 if (std::to_wstring(id) != value) {
                     return false;
                 }
@@ -237,9 +239,6 @@ bool Database::matchesCriteria(const Student& student, const std::map<std::wstri
                 std::wstring endStr = value.substr(dashPos + 1);
                 int start = startStr == L"*" ? std::numeric_limits<int>::min() : std::stoi(startStr);
                 int end = endStr == L"*" ? std::numeric_limits<int>::max() : std::stoi(endStr);
-		if (start > end) {
-		    return false;
-		}
                 if (group < start || group > end) {
                     return false;
                 }
@@ -256,12 +255,8 @@ bool Database::matchesCriteria(const Student& student, const std::map<std::wstri
             if (dashPos != std::string::npos) {
                 std::wstring startStr = value.substr(0, dashPos);
                 std::wstring endStr = value.substr(dashPos + 1);
-                double start = startStr == L"*" ? (std::numeric_limits<double>::max() * (-1)) : std::stod(startStr);
+                double start = startStr == L"*" ? -std::numeric_limits<double>::max() : std::stod(startStr);
                 double end = endStr == L"*" ? std::numeric_limits<double>::max() : std::stod(endStr);
-                //if ()
-                //if (start > end) {
-                //    return false;
-                //}
                 if (rating < start || rating > end) {
                     return false;
                 }
@@ -360,24 +355,24 @@ void Database::select(const std::wstring& command) {
         const std::wstring& value = crit.second;
         if (field == L"id") {
             id_criteria = value;
-            continue;
         }
         // --- Поиск по name ---
-        if (field == L"name") {
+        else if (field == L"name") {
             if (value == L"*") continue;
             size_t dashPos = value.find(L'-');
             if (dashPos != std::string::npos) { // Если у нас поиск по диапазону значений (name=А*-Б*, ...)
                 std::wstring startStr = value.substr(0, dashPos);
                 std::wstring endStr = value.substr(dashPos + 1);
                 if (startStr > endStr)
-                if (startStr == L"*" && endStr == L"*" ) continue;
+                    if (startStr == L"*" && endStr == L"*") continue;
                 if (size_t starPos = startStr.find(L"*"); starPos != std::string::npos && starPos != startStr.length() - 1) continue;
                 if (startStr == L"*") startN = studentsBN.begin();
                 else startN = studentsBN.equal_range(startStr.c_str()).first;
                 if (size_t starPos = endStr.find(L"*"); starPos != std::string::npos && starPos != endStr.length() - 1) continue;
                 if (endStr == L"*") endN = studentsBN.end();
                 else endN = studentsBN.equal_range(endStr.c_str()).second;
-            } else { // Если у нас поиск по одному значению
+            }
+            else { // Если у нас поиск по одному значению
                 if (size_t starPos = value.find(L"*"); starPos != std::string::npos && starPos != value.length() - 1) continue;
                 auto [f, s] = studentsBN.equal_range(value.c_str());
                 startN = f;
@@ -397,7 +392,8 @@ void Database::select(const std::wstring& command) {
                 else startG = studentsBG.equal_range(std::stoi(startStr)).first;
                 if (endStr == L"*") endG = studentsBG.end();
                 else endG = studentsBG.equal_range(std::stoi(endStr)).second;
-            } else { // Если у нас поиск по одному значению
+            }
+            else { // Если у нас поиск по одному значению
                 auto [f, s] = studentsBG.equal_range(std::stoi(value));
                 startG = f;
                 endG = s;
@@ -416,7 +412,8 @@ void Database::select(const std::wstring& command) {
                 else startR = studentsBR.equal_range(std::stod(startStr)).first;
                 if (endStr == L"*") endR = studentsBR.end();
                 else endR = studentsBR.equal_range(std::stod(endStr)).second;
-            } else { // Если у нас поиск по одному значению
+            }
+            else { // Если у нас поиск по одному значению
                 auto [f, s] = studentsBR.equal_range(std::stod(value));
                 startR = f;
                 endR = s;
@@ -436,32 +433,31 @@ void Database::select(const std::wstring& command) {
     // --- Собираем индексы из каждого диапазона ---
     std::set<size_t> name_indices, group_indices, rating_indices;
     if (N) {
-    	for (auto it = startN; it != endN; ++it) {
-    	    if (it == studentsBN.end()){
-    	        name_indices.clear();
-    	        break;
-    	    }
-    	name_indices.insert((size_t)*it);
-    	}
+        for (auto it = startN; it != endN; ++it) {
+            if (it == studentsBN.end()) {
+                name_indices.clear();
+                break;
+            }
+            name_indices.insert((size_t)*it);
+        }
     }
     if (G) {
-    	for (auto it = startG; it != endG; ++it){
-    	    if (it == studentsBG.end()){
-       	        group_indices.clear();
-    	        break;
-    	    }
-    	group_indices.insert((size_t)*it);
-    }
-    
+        for (auto it = startG; it != endG; ++it) {
+            if (it == studentsBG.end()) {
+                group_indices.clear();
+                break;
+            }
+            group_indices.insert((size_t)*it);
+        }
     }
     if (R) {
-    	for (auto it = startR; it != endR; ++it){
-    	    if (it == studentsBN.end()){
-    	        rating_indices.clear();
-    	        break;
-    	    }
-    	    rating_indices.insert((size_t)*it);	
-    	}
+        for (auto it = startR; it != endR; ++it) {
+            if (it == studentsBN.end()) {
+                rating_indices.clear();
+                break;
+            }
+            rating_indices.insert((size_t)*it);
+        }
     }
     std::vector<size_t> temp_result;
     // --- Находим пересечение всех непустых множеств ---
@@ -470,17 +466,23 @@ void Database::select(const std::wstring& command) {
         std::set<size_t> temp_set(temp_result.begin(), temp_result.end());
         temp_result.clear();
         std::set_intersection(temp_set.begin(), temp_set.end(), rating_indices.begin(), rating_indices.end(), std::back_inserter(temp_result));
-    } else if (!name_indices.empty() && !group_indices.empty()) {
+    }
+    else if (!name_indices.empty() && !group_indices.empty()) {
         std::set_intersection(name_indices.begin(), name_indices.end(), group_indices.begin(), group_indices.end(), std::back_inserter(temp_result));
-    } else if (!name_indices.empty() && !rating_indices.empty()) {
+    }
+    else if (!name_indices.empty() && !rating_indices.empty()) {
         std::set_intersection(name_indices.begin(), name_indices.end(), rating_indices.begin(), rating_indices.end(), std::back_inserter(temp_result));
-    } else if (!group_indices.empty() && !rating_indices.empty()) {
+    }
+    else if (!group_indices.empty() && !rating_indices.empty()) {
         std::set_intersection(group_indices.begin(), group_indices.end(), rating_indices.begin(), rating_indices.end(), std::back_inserter(temp_result));
-    } else if (!name_indices.empty()) {
+    }
+    else if (!name_indices.empty()) {
         temp_result.assign(name_indices.begin(), name_indices.end());
-    } else if (!group_indices.empty()) {
+    }
+    else if (!group_indices.empty()) {
         temp_result.assign(group_indices.begin(), group_indices.end());
-    } else if (!rating_indices.empty()) {
+    }
+    else if (!rating_indices.empty()) {
         temp_result.assign(rating_indices.begin(), rating_indices.end());
     }
     // --- Если был хотя бы один критерий по дереву, temp_result содержит кандидатов ---
@@ -492,7 +494,8 @@ void Database::select(const std::wstring& command) {
             if (matchesCriteria(students[idx], id_map)) id_filtered.push_back(idx);
         }
         selectedStudents = id_filtered;
-    } else {
+    }
+    else {
         selectedStudents.insert(selectedStudents.end(), temp_result.begin(), temp_result.end());
     }
     // --- Если не было критериев по деревьям, но был только id — ищем по id по всем студентам ---
@@ -544,7 +547,7 @@ void Database::print(const std::wstring& fields) const {
                 return students[a].rating < students[b].rating;
             else
                 return wcscmp(students[a].name, students[b].name) <= 0;
-        });
+            });
     }
     // --- Поддержка диапазона вывода: print ... range=начало-конец ---
     size_t range_start = 0, range_end = output_students.size();
@@ -560,7 +563,8 @@ void Database::print(const std::wstring& fields) const {
                 range_end = std::stoul(end_str);
                 if (range_start > output_students.size()) range_start = output_students.size();
                 if (range_end > output_students.size()) range_end = output_students.size();
-            } catch (...) {}
+            }
+            catch (...) {}
         }
     }
     for (size_t idx = range_start; idx < range_end; ++idx) {
@@ -597,7 +601,8 @@ void Database::update(const std::wstring& command) {
             }
             else if (field == L"group") {
                 int group = 0;
-                try { group = std::stoi(value); } catch (...) { break; }
+                try { group = std::stoi(value); }
+                catch (...) { break; }
                 if (!validate_group(group)) {
                     std::wcout << L"Ошибка: некорректная группа (целое число > 0)\n";
                     break;
@@ -606,7 +611,8 @@ void Database::update(const std::wstring& command) {
             }
             else if (field == L"rating") {
                 double rating = 0;
-                try { rating = std::stod(value); } catch (...) { break; }
+                try { rating = std::stod(value); }
+                catch (...) { break; }
                 if (!validate_rating(rating)) {
                     std::wcout << L"Ошибка: некорректная оценка (от 2 до 5)\n";
                     break;
@@ -627,9 +633,9 @@ void Database::update(const std::wstring& command) {
     selectedStudents.reserve(students.size());
     selectedStudents.resize(students.size());
     for (size_t i = 0; i < students.size(); ++i) {
-        studentsBN.insert(Index{i});
-        studentsBG.insert(Index{i});
-        studentsBR.insert(Index{i});
+        studentsBN.insert(Index{ i });
+        studentsBG.insert(Index{ i });
+        studentsBR.insert(Index{ i });
         selectedStudents[i] = i;
     }
     std::wcout << L"Отредактированы записи\n";
@@ -650,9 +656,9 @@ void Database::remove() {
     selectedStudents.reserve(students.size());
     selectedStudents.resize(students.size());
     for (size_t i = 0; i < students.size(); ++i) {
-        studentsBN.insert(Index{i});
-        studentsBG.insert(Index{i});
-        studentsBR.insert(Index{i});
+        studentsBN.insert(Index{ i });
+        studentsBG.insert(Index{ i });
+        studentsBR.insert(Index{ i });
         selectedStudents[i] = i;
     }
     std::wcout << L"Удалены записи: " << count << L"\n";
@@ -689,9 +695,9 @@ void Database::add(const std::wstring& command) {
     selectedStudents.reserve(students.size());
     selectedStudents.resize(students.size());
     for (size_t i = 0; i < students.size(); ++i) {
-        studentsBN.insert(Index{i});
-        studentsBG.insert(Index{i});
-        studentsBR.insert(Index{i});
+        studentsBN.insert(Index{ i });
+        studentsBG.insert(Index{ i });
+        studentsBR.insert(Index{ i });
         selectedStudents[i] = i;
     }
     std::wcout << L"Добавлен студент: " << newStudent.name << L"\n";
@@ -706,7 +712,7 @@ void Database::sort() {
         if (a.rating != b.rating)
             return a.rating < b.rating;
         return a.info < b.info;
-    });
+        });
 }
 // ------------------- Реализация поддержки оповещений -------------------
 size_t Database::getVersion() const { return version; }
