@@ -85,6 +85,7 @@ void handle_client(int clientSocket) {
         ssize_t bytesRead = recv(clientSocket, &msgLength, sizeof(int), 0);
         if (bytesRead <= 0) {
             std::wcerr << L"\033[1;31mКлиент отключился или произошла ошибка\033[0m\n";
+            delete[] buffer;
             break;
         }
         if (msgLength == -1) {
@@ -92,12 +93,13 @@ void handle_client(int clientSocket) {
             continue;
         }
         try {
-            std::unique_ptr<char[]> buffer(new char[msgLength + 1]);
+            char* buffer = new char[msgLength + 1];
             int totalReceived = 0;
             while (totalReceived != msgLength) {
                 bytesRead = recv(clientSocket, buffer + totalReceived, msgLength - totalReceived, 0);
                 if (bytesRead <= 0) {
                     std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
+                    delete[] buffer;
                     close(clientSocket);
                     return;
                 }
@@ -153,6 +155,7 @@ void handle_client(int clientSocket) {
             send(clientSocket, message.c_str(), respLength, 0);
         } catch (const std::bad_alloc&) {
             std::wcerr << L"\033[1;31mОшибка выделения памяти (bad_alloc)\033[0m\n";
+            delete[] buffer;
             close(clientSocket);
             return;
         }
