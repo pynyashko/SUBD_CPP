@@ -259,9 +259,9 @@ bool Database::matchesCriteria(const Student& student, const std::map<std::wstri
                 double start = startStr == L"*" ? (std::numeric_limits<double>::max() * (-1)) : std::stod(startStr);
                 double end = endStr == L"*" ? std::numeric_limits<double>::max() : std::stod(endStr);
                 //if ()
-		if (start > end) {
-		    return false;
-		}
+                //if (start > end) {
+                //    return false;
+                //}
                 if (rating < start || rating > end) {
                     return false;
                 }
@@ -411,7 +411,6 @@ void Database::select(const std::wstring& command) {
             if (dashPos != std::string::npos) { // Если у нас поиск по диапазону значений (rating=3-5, ...)
                 std::wstring startStr = value.substr(0, dashPos);
                 std::wstring endStr = value.substr(dashPos + 1);
-                
                 if (startStr == L"*" && endStr == L"*") continue;
                 if (startStr == L"*") startR = studentsBR.begin();
                 else startR = studentsBR.equal_range(std::stod(startStr)).first;
