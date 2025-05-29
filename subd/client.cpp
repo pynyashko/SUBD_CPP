@@ -188,7 +188,7 @@ int main() {
                 if (bytesRead <= 0) {
                     std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
                     delete[] buffer;
-                    close(clientSocket)
+                    close(clientSocket);
                     break;
                 }
                 totalReceived += bytesRead;

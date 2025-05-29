@@ -104,6 +104,7 @@ private:
 
 public:
     size_t getVersion() const;
+    void clearCallbacks();
     void notifyOnChange(std::function<void()> callback);
     void notifyChanged();
 
