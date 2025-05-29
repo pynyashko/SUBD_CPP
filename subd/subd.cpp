@@ -716,6 +716,7 @@ void Database::sort() {
 }
 // ------------------- Реализация поддержки оповещений -------------------
 size_t Database::getVersion() const { return version; }
+void Database::clearCallbacks() { changeCallbacks.clear(); }
 void Database::notifyOnChange(std::function<void()> callback) { changeCallbacks.push_back(callback); }
 void Database::notifyChanged() {
     ++version;

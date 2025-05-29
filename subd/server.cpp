@@ -92,13 +92,12 @@ void handle_client(int clientSocket) {
             continue;
         }
         try {
-            char* buffer = new char[msgLength + 1];
+            std::unique_ptr<char[]> buffer(new char[msgLength + 1]);
             int totalReceived = 0;
             while (totalReceived != msgLength) {
                 bytesRead = recv(clientSocket, buffer + totalReceived, msgLength - totalReceived, 0);
                 if (bytesRead <= 0) {
                     std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
-                    delete[] buffer;
                     close(clientSocket);
                     return;
                 }
@@ -152,7 +151,6 @@ void handle_client(int clientSocket) {
             int respLength = message.size();
             send(clientSocket, &respLength, sizeof(int), 0);
             send(clientSocket, message.c_str(), respLength, 0);
-            delete[] buffer;
         } catch (const std::bad_alloc&) {
             std::wcerr << L"\033[1;31mОшибка выделения памяти (bad_alloc)\033[0m\n";
             close(clientSocket);
@@ -170,6 +168,7 @@ void handle_client(int clientSocket) {
         // Удаляем экземпляр Database для этого клиента
         auto& arr = db_instances_map[current_db_file];
         arr.erase(std::remove_if(arr.begin(), arr.end(), [&](const std::shared_ptr<Database>& db) { return db == db_ptr; }), arr.end());
+        db_ptr->clearCallbacks();
         if (arr.empty()) db_instances_map.erase(current_db_file);
     }
     {
