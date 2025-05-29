@@ -155,7 +155,6 @@ void handle_client(int clientSocket) {
             send(clientSocket, message.c_str(), respLength, 0);
         } catch (const std::bad_alloc&) {
             std::wcerr << L"\033[1;31mОшибка выделения памяти (bad_alloc)\033[0m\n";
-            delete[] buffer;
             close(clientSocket);
             return;
         }
