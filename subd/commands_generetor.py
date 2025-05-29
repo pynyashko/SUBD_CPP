@@ -199,9 +199,9 @@ def generate_command():
 
 with open("commands.txt", "w", encoding="utf-8") as f:
     f.write("open test_students_db.txt\n")
-    for i in range(500):
+    for i in range(100):
         comm = generate_command()
         f.write(comm + "\n")
-    f.write("save")
+    f.write("save\nexit")
     print("Список комманд сгенерирован(commands.txt)")
 

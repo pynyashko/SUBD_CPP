@@ -1,502 +1,99 @@
 open test_students_db.txt
-reselect group=4408
-add Зимина Кира Демидовна	5605	4.6	Совмещает с работой
+select id=392-43
 remove
-reselect group=3273
-remove
-select name=Тимофей
-print
-print
-remove
-select id=429-287
-add Степанова Эльвира Ивановна	6337	4.6	Иностранный студент (контракт)
-select rating=4.4-3.7
-print
-select id=108-136
-reselect id=442-338
-select rating=4.4-2.2
-add Лебедев Игнат Цезаревич	5936	2.5	Разработчик игр
-reselect rating=2.4-4.4
-remove
-remove
-select group=9412
-add Власов Леонид Львович	9254	3.6	Сирота
-reselect group=8827
-print
-remove
-reselect rating=4.1-3.5
-add Прокофьев Альберт Фёдорович	3850	4.9	Тьютор по математике
-add Соловьева Яна Ярославовна	9509	3.5	Победитель конкурса стартапов
-remove
-select name=Тихонов
-select rating=2.2-3.7
-remove
-select rating=4.9-4.2
-reselect name=Якушев
-select rating=2.4-4.5
-select group=9726
-select name=Ян
-select id=145-267
-select group=7141
-reselect id=166-55
-remove
-reselect id=217-477
-reselect group=5437
-add Цветкова Ангелина Дмитриевна	2213	4.6	Капитан КВН
-select group=6905
-select name=Ярославович*
-remove
-reselect name=Яков
-remove
-select rating=3.5-4.7
-add Щеглов Умар Кириллович	6897	4.3	Участник кейс-чемпионатов
-print
-remove
-add Лапина Татьяна Кирилловна	5009	3.1	Администратор чата факультета
-print
-remove
-remove
-print
-print
-remove
-select group=3425
-add Широков Андрей Николаевич	9669	4.9	Ментор первокурсников
-print
-print
-reselect name=Кузнецова*
-select group=3790
-remove
-print
-select id=277-481
-remove
-remove
-remove
-reselect group=9677
-add Жилин Цезарь Степанович	6674	2.8	Участник театральной студии
-add Прокофьев Руслан Тарасович	8331	3.1	Победитель конкурса эссе
-print
-add Семенова Оксана Яновна	8965	4.3	Участник донорских акций
-select group=8624
-remove
-add Петров Давид Геннадиевич	8464	3.3	Отсрочка от армии
-remove
-remove
-reselect name=Милана
-print
-select group=2098
-select name=Жоресовна*
-reselect rating=3.1-4.8
-select id=116-224
-print
-add Егорова Зарина Фоминична	7900	2.4	Член философского кружка
-add Щербакова Эвелина Маратовна	1319	4.3	Академический отпуск по болезни
-select id=81-380
-reselect rating=3.9-2.0
-add Носков Василий Германович	2976	4.6	Фотокорреспондент
-print
-remove
-add Лыткина Диана Максимовна	3309	3.8	Член профсоюзной организации
-print
-add Щукина Надежда Филипповна	4158	4.7	Автор блога об учебе
-select rating=3.4-2.8
-print
-add Носкова Зоя Павловна	1460	3.9	Дублирует курс
-reselect rating=2.2-2.6
-reselect group=8824
-remove
-add Маслов Савва Романович	1312	5.0	Член сообщества data science
-print
-select rating=2.4-4.8
-select name=Эльдаровна
-remove
-add Овчинников Василий Вячеславович	3488	4.9	Участник модели ООН
-reselect group=3577
-add Михайлова Тереза Фоминична	6684	4.0	Академический отпуск по болезни
-reselect group=1124
-reselect name=Прохор
-remove
-print
-reselect name=Геннадий
-remove
-select group=8372
-add Осипова Ия Алексеевна	4899	4.4	Участник стартап-проектов
-reselect rating=2.8-3.2
-reselect rating=4.0-2.1
-reselect group=2016
-remove
-print
-reselect rating=4.3-4.2
-reselect id=406-215
-add Петрова Пелагея Юхимовна	6228	3.0	Участник донорских акций
-select id=273-137
-reselect id=346-130
-select group=2558
-reselect rating=4.5-2.6
-add Маслова Елизавета Тарасовна	7186	4.1	Капитан КВН
-print
-select group=2130
-select name=Давид
-remove
-remove
-print
-reselect id=277-497
-print
-remove
-remove
-add Рыбакова Нина Эльдаровна	5108	3.8	Член сборной по шахматам
-select id=353-128
-add Исаев Харитон Камилевич	1389	2.2	Волонтерская деятельность
-print
-select rating=4.7-3.7
-remove
-print
-select rating=2.9-3.7
-remove
-print
-reselect id=146-326
-add Черкасова Божена Денисовна	9519	4.9	Капитан КВН
-reselect id=351-346
-add Семенова Александра Евгеньевна	3481	2.2	Член исторического общества
-print
-select group=4456
-select rating=3.9-4.5
-print
-print
-remove
-add Ульянов Устин Андреевич	4221	3.0	Дублирует курс
-add Виноградова Светлана Ивановна	7785	2.0	Модератор конференций
-reselect group=9609
-reselect name=Субботина*
-reselect id=261-232
-print
-reselect id=356-349
-select id=14-497
-print
-reselect id=399-234
-add Морозов Марк Янович	9433	3.9	Смена специальности
-reselect rating=4.2-*
-add Фомин Константин Эдуардович	9369	4.2	Совмещает два направления
-select rating=2.4-4.6
-remove
-add Васильев Ян Ибрагимович	4987	4.8	Член сборной по шахматам
-add Осипова Серафима Андреевна	8369	4.8	Победитель хакатонов
-remove
-remove
-reselect name=Морозова
-remove
-remove
-reselect name=Зимина*
-print
-add Чеботарев Дамир Тимофеевич	2777	3.1	Стажер в крупной компании
-reselect group=2125
-print
-add Князева Виктория Фоминична	3474	3.5	Победитель Science Slam
-add Жукова Любовь Степановна	6019	2.3	Академический отпуск по болезни
-remove
-print
-print
-add Жданов Олег Евгеньевич	6955	4.6	Победитель Science Slam
-add Жуков Матвей Борисович	2208	2.8	Редактор студгазеты
-reselect id=179-181
-reselect id=454-170
-remove
-remove
-print
-print
-add Николаев Виктор Алексеевич	5581	3.8	Отличник учебы
-add Нестеров Павел Захарович	1744	2.8	Член клуба логистов
-remove
-select rating=*-2.6
-add Ефимов Ждан Тимофеевич	6152	3.5	Отсрочка от армии
-print
-remove
-add Царев Адам Анатольевич	9410	3.7	Победитель хакатонов
-reselect name=Демид
-reselect name=Гелена*
-reselect rating=2.5-4.0
-print
-reselect name=Николаевна*
-add Андреева Богдана Владиславовна	8127	3.1	Стажер в крупной компании
-remove
-print
-remove
-add Овчинникова Зоя Львовна	5877	4.2	Участник AI-проектов
-print
-reselect rating=4.1-2.8
-reselect group=9728
-print
-print
-reselect id=488-428
-reselect id=236-358
-select name=Теодор
-reselect id=264-291
-select id=21-261
-select name=Хабарова*
-reselect name=Ильинична
-print
-reselect rating=2.3-3.6
-add Нестеров Виктор Александрович	3989	2.4	Волонтерская деятельность
-select rating=2.9-3.1
-select rating=4.9-4.4
-select group=6129
-print
-select name=Ксения
-remove
-remove
-reselect group=7625
-add Чеботарев Семён Назарович	7607	2.8	Участник научных конкурсов
-reselect rating=2.8-2.5
-select name=Черкасова*
-select id=141-392
-print
-reselect rating=2.2-2.8
-print
-remove
-remove
-add Чеботарева Ксения Евграфовна	8297	5.0	Бюджетная основа обучения
-add Абрамов Устин Тимофеевич	2244	3.1	Член научного общества
-add Кузнецов Глеб Рамирович	9616	3.4	Член сборной по шахматам
-print
-remove
-reselect id=328-14
-select name=Витальевна
-select group=6088
-reselect group=2788
-remove
-select group=2510
-add Жилина Гретта Максимовна	1718	3.5	Участник творческих коллективов
-select name=Хабибович
-reselect name=Абрамов
-reselect id=316-35
-reselect name=Харитонова*
-remove
-print
-select name=Николаевич*
-remove
-reselect id=20-102
-print
-remove
-select name=Яна*
-select name=Ибрагимовна
-add Овчинников Цезарь Демидович	8042	4.8	Член исторического общества
-print
-remove
-add Евсеева Татьяна Фоминична	8185	4.6	Отличник учебы
-select group=7520
-remove
+reselect id=25-304
 print
-select id=26-424
 remove
-remove
-add Лебедев Дамир Хабибович	7428	2.3	Участник стартап-проектов
-remove
 print
+reselect rating=4.6-3.8
+select group=2957
 remove
-print
-reselect id=164-221
-reselect group=7705
-select id=329-139
-add Соколова Земфира Вячеславовна	4205	2.8	Член IT-клуба
-select id=298-231
-add Якушева Екатерина Назаровна	4610	3.6	Отличник учебы
+select group=2517
 remove
 print
-add Яковлева Розалина Фёдоровна	9586	2.1	Редактор студгазеты
-add Ефимова Василиса Ефимовна	3582	4.5	Совмещает с работой
-select group=2132
-reselect rating=4.3-3.1
-select group=3856
-select rating=3.2-4.9
-print
-reselect rating=2.5-3.0
-add Прокофьева Кира Семёновна	3809	4.0	Обладатель гранта ректора
 remove
-print
-select group=3595
-remove
-reselect group=9380
-reselect rating=2.0-4.0
-add Волкова Ольга Валентиновна	7112	2.5	Фотокорреспондент
-print
-add Петров Шамиль Филиппович	6987	4.2	Член научного общества
-select rating=5.0-4.7
-select group=8529
-select group=8930
-select rating=2.9-*
-select name=Хабибович
-select group=9059
-remove
-reselect rating=3.5-4.7
-select rating=2.3-3.0
-print
-select id=291-147
-reselect group=8955
-reselect rating=2.6-4.5
-select id=139-196
-reselect name=Юрьевна*
-remove
-reselect group=9688
-select id=366-416
-remove
-add Широкова Дарья Ибрагимовна	1995	2.3	Участник политических дебатов
-reselect id=451-197
-select group=7105
+select rating=2.8-2.0
 remove
-print
-add Блинов Дмитрий Евгеньевич	7139	4.4	Инвалидность 3 группы
-add Хабарова Анастасия Несторовна	7401	3.9	Победитель конкурса дизайна
+reselect id=162-198
+reselect name=Овчинников*
+select rating=4.5-3.0
 print
-add Ушакова Анна Брониславовна	3471	4.2	Участник клуба дебатов
-add Иванова Полина Вячеславовна	5889	3.9	Участник юридических клиник
-add Громова Пелагея Умаровна	8177	3.0	Из многодетной семьи
-reselect id=476-204
-select group=4699
-select name=Давид
+select id=370-335
+add Жданов Цезарь Евграфович	4094	3.2	Льготная категория
+add Степанова Кира Яновна	7925	3.3	Вечернее отделение
+select name=Цветков
+reselect rating=3.2-3.3
+reselect rating=2.2-5.0
 print
-print
+reselect group=8190
+add Алексеева Зарина Харитоновна	8340	2.9	Участник политических дебатов
 remove
-print
-print
-select name=Геннадий
-print
-reselect name=Теодорович
-reselect rating=2.1-4.0
-print
-add Цветкова Людмила Эльдаровна	5202	4.4	Совмещает два направления
+reselect name=Ирина*
+reselect rating=4.3-2.4
+add Лебедева Снежана Артёмовна	7634	2.4	Победитель конкурса эссе
+reselect id=38-36
+select id=116-378
 print
-print
-reselect rating=3.4-3.6
-remove
-reselect id=220-172
-add Сазонов Юрий Данилович	7098	3.7	Участник медиапроектов
-reselect id=328-156
-add Прокофьев Тарас Васильевич	5236	3.5	Иностранный студент (контракт)
-remove
-add Лыткина Тереза Максимовна	3549	3.3	Организатор квестов
-remove
 remove
-print
-print
+add Устинов Марк Игоревич	6829	4.7	Волонтер в детских домах
 remove
 print
-add Власова Фаина Леонидовна	6243	3.1	Автор научных статей
-reselect rating=3.1-2.4
-select rating=3.0-4.6
-select rating=2.8-2.8
-reselect group=4965
-select name=Ильинична
-select name=Захар*
 print
+select group=6554
 remove
-add Фролов Пётр Русланович	9050	2.4	Участник стартап-проектов
-print
-add Дементьев Ян Дмитриевич	3893	3.3	Целевое обучение от предприятия
-remove
-print
-add Лыткина Дебора Сергеевна	6789	4.4	Член клуба предпринимателей
-add Баранов Яков Витальевич	7045	2.9	Участник клуба дебатов
 print
-add Виноградова Ирина Алексеевна	9117	4.1	Участник нейроисследований
-print
-print
-add Галкин Василий Юрьевич	8528	3.4	Ментор первокурсников
-select rating=2.3-3.8
-print
-reselect name=Устинов
-remove
-select rating=4.5-3.7
-add Зуев Яков Денисович	4101	4.8	Повышенная академическая стипендия
-add Иванов Николай Платонович	5899	2.1	Волонтер чемпионатов
-print
-reselect id=21-116
-add Жукова Розалина Эльдаровна	3144	3.3	Участник Erasmus+
+select id=473-8
+reselect group=8655
+select id=291-397
+reselect group=1226
+add Абрамов Адам Хабибович	7992	3.1	Организатор фестивалей
+add Волков Клим Захарович	4050	2.8	Участник медиапроектов
+add Баранова Нина Богдановна	1687	2.7	Актив студенческого совета
+reselect rating=4.1-4.4
+reselect name=Кирилл
+add Прокофьева Офелия Валентиновна	7605	2.3	Участник хора
+reselect name=Ян*
+add Зимин Филипп Русланович	3031	2.0	Академический отпуск по болезни
+reselect rating=2.8-2.3
+add Хабаров Эмир Эдуардович	1130	3.7	Участник AI-проектов
 remove
-add Жданов Филипп Хабибович	3894	5.0	Автор курсовых на заказ
+reselect name=Петрова
+reselect group=7146
+select id=31-233
 remove
 remove
-select rating=3.4-3.5
-print
-reselect id=237-56
-reselect id=475-376
-remove
-print
-print
-add Андреева Алёна Матвеевна	2826	4.1	Участник научных конкурсов
-add Лапина Маргарита Ивановна	8006	4.4	Разработчик университетского сайта
-add Белов Георгий Ефимович	6004	4.7	Организатор мероприятий
-print
+reselect group=5751
+add Овчинников Егор Альбертович	1401	2.5	Стипендиат фонда Потанина
 remove
-print
-select name=Фатима
-add Козлов Богдан Алексеевич	6448	3.7	Сирота
 remove
-add Лебедев Яромир Владиславович	6198	3.9	Стипендиат фонда Потанина
-print
-reselect name=Евгеньевна
-reselect rating=3.1-2.4
-add Алексеев Дамир Павлович	6686	2.8	Участник биохакинга
-select group=8031
-reselect rating=3.8-2.7
-print
-reselect id=59-399
-print
+reselect id=406-428
+add Шестакова Гульнара Харитоновна	4832	3.0	Участник архитектурных проектов
 remove
-select rating=3.7-2.6
+select id=236-499
+reselect group=3858
+select rating=4.6-4.0
 print
-add Жданова Яна Сергеевна	6781	4.0	Участник археологических экспедиций
-add Князев Борис Константинович	1582	2.1	Призер олимпиад
-reselect id=384-488
-remove
-add Князев Эрик Назарович	7041	4.8	Фотокорреспондент
 print
-remove
-remove
-select name=Захаровна*
-print
-remove
-select id=486-65
-reselect id=298-76
-remove
-remove
-select rating=4.7-4.9
-add Панкратова Ольга Георгиевна	3504	4.5	Участник клуба дебатов
+add Тихонов Зиновий Одиссеевич	7294	2.2	Дублирует курс
+add Щукина Юлия Тимофеевна	7744	2.5	Член туристического клуба
 print
-reselect group=7609
 print
+select name=Баранов*
+add Степанов Сергей Ибрагимович	9574	3.2	Отсрочка от армии
 print
-remove
-select id=482-4
-select id=241-390
-reselect name=Евграфович
+add Ильина Тереза Олеговна	4665	3.1	Участник Erasmus+
+select group=4360
 remove
+add Харитонов Эмир Георгиевич	6246	4.0	Разработчик чат-ботов
+add Яковлев Александр Теодорович	8762	2.6	Автор подкастов
+select rating=4.1-4.6
+select name=Устинов
+reselect rating=*-3.6
+select group=2829
+select id=395-304
+reselect rating=3.0-2.2
 remove
-select group=8844
-reselect rating=2.5-4.9
-print
-reselect id=269-205
-select rating=4.9-2.5
-remove
-reselect rating=3.9-3.7
-print
-add Щеглов Устин Валерьевич	5248	3.8	Капитан КВН
-add Семенова Диана Яковлевна	8373	2.4	Иностранный студент (контракт)
-reselect id=131-78
-add Якушев Артём Ярославович	2844	4.4	Член туристического клуба
-select group=8964
-reselect rating=4.1-4.7
+reselect rating=3.6-3.3
 print
-print
-reselect group=8364
-select name=Элина*
-add Назаров Павел Германович	4779	3.6	Фотокорреспондент
-select id=499-461
-add Субботин Зиновий Николаевич	1132	2.9	Дистанционное обучение
-select rating=4.1-3.4
-print
-print
-print
-reselect group=3949
-reselect rating=3.7-3.6
-remove
-add Панкратова Людмила Львовна	6145	4.3	Член литературного клуба
 save
+exit
