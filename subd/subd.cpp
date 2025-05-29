@@ -452,7 +452,7 @@ void Database::select(const std::wstring& command) {
     }
     if (R) {
         for (auto it = startR; it != endR; ++it) {
-            if (it == studentsBN.end()) {
+            if (it == studentsBR.end()) {
                 rating_indices.clear();
                 break;
             }
