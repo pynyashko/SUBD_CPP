@@ -95,7 +95,7 @@ void handle_client(int clientSocket) {
             std::vector<char> buffer(msgLength + 1);
             int totalReceived = 0;
             while (totalReceived != msgLength) {
-                bytesRead = recv(clientSocket, buffer + totalReceived, msgLength - totalReceived, 0);
+                bytesRead = recv(clientSocket, buffer.data() + totalReceived, msgLength - totalReceived, 0);
                 if (bytesRead <= 0) {
                     std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
                     close(clientSocket);
