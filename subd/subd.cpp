@@ -14,38 +14,8 @@ std::wstring trim(const std::wstring& str) {
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
 std::wstring utf8_to_utf16(const std::string& utf8) {
-    try {
-        // Проверка на валидность UTF-8
-        for (size_t i = 0; i < utf8.size();) {
-            unsigned char c = static_cast<unsigned char>(utf8[i]);
-            size_t len = 0;
-            if (c <= 0x7F) len = 1;
-            else if ((c & 0xE0) == 0xC0) len = 2;
-            else if ((c & 0xF0) == 0xE0) len = 3;
-            else if ((c & 0xF8) == 0xF0) len = 4;
-            else {
-                std::wcerr << L"\033[1;31mНекорректная последовательность UTF-8\033[0m\n";
-                return L"";
-            }
-            if (i + len > utf8.size()) {
-                std::wcerr << L"\033[1;31mНеполная последовательность UTF-8\033[0m\n";
-                return L"";
-            }
-            for (size_t j = 1; j < len; ++j) {
-                if ((static_cast<unsigned char>(utf8[i + j]) & 0xC0) != 0x80) {
-                    std::wcerr << L"\033[1;31mНекорректная последовательность UTF-8\033[0m\n";
-                    return L"";
-                }
-            }
-            i += len;
-        }
-        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-        return converter.from_bytes(utf8);
-    }
-    catch (const std::range_error&) {
-        std::wcerr << L"\033[1;31mОшибка преобразования UTF-8 в UTF-16\033[0m\n";
-        return L"";
-    }
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    return converter.from_bytes(utf8);
 }
 
 // Конвертация UTF-16 → UTF-8 (для имени файла)
@@ -120,22 +90,6 @@ bool validate_rating(double rating) {
     return rating >= 2.0 && rating <= 5.0;
 }
 
-bool is_valid_utf16(const std::wstring& str) {
-    for (size_t i = 0; i < str.size(); ++i) {
-        wchar_t c = str[i];
-        // Проверяем, что символ не является суррогатным кодом без пары
-        if (c >= 0xD800 && c <= 0xDBFF) { // Высокий суррогат
-            if (i + 1 >= str.size() || str[i + 1] < 0xDC00 || str[i + 1] > 0xDFFF) {
-                return false;
-            }
-            ++i; // Пропускаем низкий суррогат
-        }
-        else if (c >= 0xDC00 && c <= 0xDFFF) { // Низкий суррогат без высокого
-            return false;
-        }
-    }
-    return true;
-}
 
 // -------------------------------------------------- Приватные функции-помощники --------------------------------------------------
 // Загрузка бд из файла
@@ -565,40 +519,23 @@ void Database::select(const std::wstring& command) {
 }
 // Повторная выборка
 void Database::reselect(const std::wstring& command) {
-    if (command.empty()) {
-        std::wcout << L"Выбрано " << selectedStudents.size() << L" записей после выборки\n";
+    if (selectedStudents.empty()) {
+        std::wcout << L"Нет выбранных записей для повторной выборки\n";
         return;
     }
-    if (!is_valid_utf16(command)) {
-        std::wcout << L"Ошибка: команда содержит некорректные символы UTF-16\n";
+    auto criteria = parseCriteria(command);
+    if (criteria.empty()) {
+        std::wcout << L"Выбрано " << selectedStudents.size() << L" записей после повторной выборки\n";
         return;
     }
-    std::map<std::wstring, std::wstring> criteria;
-    std::wstring cmd = command;
-    size_t pos = cmd.find(L'=');
-    while (pos != std::wstring::npos) {
-        std::wstring field = trim(cmd.substr(0, pos));
-        cmd = trim(cmd.substr(pos + 1));
-        pos = cmd.find(L',');
-        std::wstring value;
-        if (pos != std::wstring::npos) {
-            value = trim(cmd.substr(0, pos));
-            cmd = cmd.substr(pos + 1);
-        }
-        else {
-            value = trim(cmd);
-        }
-        criteria[field] = value;
-        pos = cmd.find(L'=');
-    }
-    std::vector<size_t> newSelection;
-    for (size_t i = 0; i < students.size(); ++i) {
-        if (matchesCriteria(students[i], criteria)) {
-            newSelection.push_back(i);
+    std::vector<size_t> temp;
+    for (size_t i = 0; i < selectedStudents.size(); ++i) {
+        if (matchesCriteria(students[selectedStudents[i]], criteria)) {
+            temp.push_back(selectedStudents[i]);
         }
     }
-    selectedStudents = newSelection;
-    std::wcout << L"Выбрано " << selectedStudents.size() << L" записей после выборки\n";
+    selectedStudents = temp;
+    std::wcout << L"Выбрано " << selectedStudents.size() << L" записей после повторной выборки\n";
 }
 // Вывод выбранных записей
 void Database::print(const std::wstring& fields) const {
