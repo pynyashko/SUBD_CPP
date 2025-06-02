@@ -5,8 +5,38 @@
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
 std::wstring utf8_to_utf16(const std::string& utf8) {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    return converter.from_bytes(utf8);
+    std::lock_guard<std::mutex> lock(conversionMutex); try {
+        // Проверка на валидность UTF-8
+        for (size_t i = 0; i < utf8.size();) {
+            unsigned char c = static_cast<unsigned char>(utf8[i]);
+            size_t len = 0;
+            if (c <= 0x7F) len = 1;
+            else if ((c & 0xE0) == 0xC0) len = 2;
+            else if ((c & 0xF0) == 0xE0) len = 3;
+            else if ((c & 0xF8) == 0xF0) len = 4;
+            else {
+                std::wcerr << L"\033[1;31mНекорректная последовательность UTF-8\033[0m\n";
+                return L"";
+            }
+            if (i + len > utf8.size()) {
+                std::wcerr << L"\033[1;31mНеполная последовательность UTF-8\033[0m\n";
+                return L"";
+            }
+            for (size_t j = 1; j < len; ++j) {
+                if ((static_cast<unsigned char>(utf8[i + j]) & 0xC0) != 0x80) {
+                    std::wcerr << L"\033[1;31mНекорректная последовательность UTF-8\033[0m\n";
+                    return L"";
+                }
+            }
+            i += len;
+        }
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        return converter.from_bytes(utf8);
+    }
+    catch (const std::range_error&) {
+        std::wcerr << L"\033[1;31mОшибка преобразования UTF-8 в UTF-16\033[0m\n";
+        return L"";
+    }
 }
 
 // Конвертация UTF-16 → UTF-8 (для имени файла)
