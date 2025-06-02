@@ -2,15 +2,6 @@
 #include <regex>
 #include <typeinfo>
 
-std::wstring trim(const std::wstring& str) {
-    auto first = std::find_if(str.begin(), str.end(), [](wchar_t c) { return !std::iswspace(c); });
-    auto last = std::find_if(str.rbegin(), str.rend(), [](wchar_t c) { return !std::iswspace(c); }).base();
-    if (first >= last) {
-        return std::wstring();
-    }
-    return std::wstring(first, last);
-}
-
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
 std::wstring utf8_to_utf16(const std::string& utf8) {
