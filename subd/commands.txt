@@ -1,99 +1,103 @@
 open test_students_db.txt
-select id=392-43
-remove
-reselect id=25-304
-print
 remove
 print
-reselect rating=4.6-3.8
-select group=2957
+reselect group=9432
+add Лебедев Семён Сергеевич	3605	2.2	Участник AI-проектов
+add Шубин Рамир Кириллович	2052	4.3	Вечернее отделение
 remove
-select group=2517
-remove
+add Царева Елизавета Юхимовна	2996	2.3	Из многодетной семьи
+select rating=4.4-4.9
+add Николаев Назар Георгиевич	4927	3.1	Автор научных статей
+select group=3560
+select id=30-143
+add Филиппов Святослав Русланович	5080	2.3	Автор подкастов
 print
+add Романова Вероника Анатольевна	7565	3.5	Участник модели ООН
 remove
-select rating=2.8-2.0
+select name=Пахомова*
+reselect name=Юхимовна
+select rating=4.9-4.7
+add Зуева София Филипповна	3115	4.1	Спортивная стипендия
+add Жукова Валерия Несторовна	6625	2.2	Организатор мероприятий
 remove
-reselect id=162-198
-reselect name=Овчинников*
-select rating=4.5-3.0
+reselect id=95-377
+reselect id=190-262
+remove
+reselect group=7058
+reselect group=4429
+reselect rating=5.0-4.1
+reselect name=Яковлевич
+add Филиппов Борис Лукьянович	6461	4.9	Участник Erasmus+
+add Петрова Устинья Шамильевна	2457	2.6	Участник робототехнических соревнований
+remove
+add Хабарова Камилла Владиславовна	2764	2.6	Иностранный студент (контракт)
+select rating=2.4-4.0
+add Евсеев Нестор Львович	9562	5.0	Член киноклуба
 print
-select id=370-335
-add Жданов Цезарь Евграфович	4094	3.2	Льготная категория
-add Степанова Кира Яновна	7925	3.3	Вечернее отделение
-select name=Цветков
-reselect rating=3.2-3.3
-reselect rating=2.2-5.0
+add Галкин Назар Богданович	6844	2.3	Волонтер чемпионатов
+add Зайцев Ефим Камилевич	7444	3.4	Редактор студгазеты
+reselect name=Демидовна
+select name=Андреевич*
+remove
+reselect group=6316
+select id=353-33
+reselect group=1567
 print
-reselect group=8190
-add Алексеева Зарина Харитоновна	8340	2.9	Участник политических дебатов
-remove
-reselect name=Ирина*
-reselect rating=4.3-2.4
-add Лебедева Снежана Артёмовна	7634	2.4	Победитель конкурса эссе
-reselect id=38-36
-select id=116-378
-print
-remove
-add Устинов Марк Игоревич	6829	4.7	Волонтер в детских домах
-remove
-print
-print
-select group=6554
-remove
-print
-select id=473-8
-reselect group=8655
-select id=291-397
-reselect group=1226
-add Абрамов Адам Хабибович	7992	3.1	Организатор фестивалей
-add Волков Клим Захарович	4050	2.8	Участник медиапроектов
-add Баранова Нина Богдановна	1687	2.7	Актив студенческого совета
-reselect rating=4.1-4.4
-reselect name=Кирилл
-add Прокофьева Офелия Валентиновна	7605	2.3	Участник хора
-reselect name=Ян*
-add Зимин Филипп Русланович	3031	2.0	Академический отпуск по болезни
-reselect rating=2.8-2.3
-add Хабаров Эмир Эдуардович	1130	3.7	Участник AI-проектов
-remove
-reselect name=Петрова
-reselect group=7146
-select id=31-233
-remove
-remove
-reselect group=5751
-add Овчинников Егор Альбертович	1401	2.5	Стипендиат фонда Потанина
-remove
-remove
-reselect id=406-428
-add Шестакова Гульнара Харитоновна	4832	3.0	Участник архитектурных проектов
-remove
-select id=236-499
-reselect group=3858
-select rating=4.6-4.0
+select group=9622
+add Карпова Алина Фёдоровна	8090	3.8	Перевод с другого факультета
+add Русаков Артём Теодорович	7845	3.7	Участник кейс-чемпионатов
+add Нестеров Радислав Андреевич	4304	3.6	Член литературного клуба
 print
 print
-add Тихонов Зиновий Одиссеевич	7294	2.2	Дублирует курс
-add Щукина Юлия Тимофеевна	7744	2.5	Член туристического клуба
+add Пахомова Диана Эдуардовна	1377	2.3	Организатор благотворительных акций
 print
-print
-select name=Баранов*
-add Степанов Сергей Ибрагимович	9574	3.2	Отсрочка от армии
-print
-add Ильина Тереза Олеговна	4665	3.1	Участник Erasmus+
-select group=4360
 remove
-add Харитонов Эмир Георгиевич	6246	4.0	Разработчик чат-ботов
-add Яковлев Александр Теодорович	8762	2.6	Автор подкастов
-select rating=4.1-4.6
-select name=Устинов
-reselect rating=*-3.6
-select group=2829
-select id=395-304
-reselect rating=3.0-2.2
-remove
-reselect rating=3.6-3.3
+reselect group=3101
 print
+remove
+select id=344-399
+print
+remove
+select name=Тарас
+reselect group=5914
+print
+print
+reselect group=8250
+reselect rating=2.2-4.2
+add Яковлев Ян Артёмович	2651	4.5	Фотокорреспондент
+add Филиппова Нелли Ибрагимовна	9817	4.2	Отсрочка от армии
+add Мамонтов Михаил Харитонович	2718	3.6	Организатор мероприятий
+print
+select id=407-369
+remove
+select rating=4.8-2.4
+remove
+reselect id=385-123
+select id=124-448
+select name=Ивановна
+select group=4076
+print
+print
+remove
+remove
+reselect name=Тарасовна*
+remove
+remove
+remove
+select id=161-275
+remove
+print
+reselect id=347-212
+print
+add Евсеева Валентина Ивановна	2166	3.7	Сотрудник университета
+select group=2152
+add Баранова Кира Игоревна	3555	3.3	Обладатель гранта ректора
+reselect group=1660
+reselect rating=3.1-3.6
+print
+reselect group=3522
+reselect name=Нелли
+add Юдин Кирилл Геннадьевич	2092	2.8	Участник Erasmus+
+reselect name=Юлия
 save
 exit
