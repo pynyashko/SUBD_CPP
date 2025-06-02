@@ -92,13 +92,12 @@ void handle_client(int clientSocket) {
             continue;
         }
         try {
-            char* buffer = new char[msgLength + 1];
+            std::vector<char> buffer(msgLength + 1);
             int totalReceived = 0;
             while (totalReceived != msgLength) {
                 bytesRead = recv(clientSocket, buffer + totalReceived, msgLength - totalReceived, 0);
                 if (bytesRead <= 0) {
                     std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
-                    delete[] buffer;
                     close(clientSocket);
                     return;
                 }
@@ -106,7 +105,7 @@ void handle_client(int clientSocket) {
             }
             buffer[msgLength] = '\0';
 
-            std::wstring wmessage = utf8_to_utf16(buffer);
+            std::wstring wmessage = utf8_to_utf16(buffer.data());
             std::wcout << L"Получено от клиента: " << wmessage << std::endl;
             std::wstring captured_output;
             {
