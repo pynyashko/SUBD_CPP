@@ -1,103 +1,103 @@
 open test_students_db.txt
-remove
 print
-reselect group=9432
-add Лебедев Семён Сергеевич	3605	2.2	Участник AI-проектов
-add Шубин Рамир Кириллович	2052	4.3	Вечернее отделение
+add Хабарова Елена Денисовна	8793	3.0	Инвалидность 3 группы
+reselect name=Щеглов*
 remove
-add Царева Елизавета Юхимовна	2996	2.3	Из многодетной семьи
-select rating=4.4-4.9
-add Николаев Назар Георгиевич	4927	3.1	Автор научных статей
-select group=3560
-select id=30-143
-add Филиппов Святослав Русланович	5080	2.3	Автор подкастов
-print
-add Романова Вероника Анатольевна	7565	3.5	Участник модели ООН
-remove
-select name=Пахомова*
-reselect name=Юхимовна
-select rating=4.9-4.7
-add Зуева София Филипповна	3115	4.1	Спортивная стипендия
-add Жукова Валерия Несторовна	6625	2.2	Организатор мероприятий
-remove
-reselect id=95-377
-reselect id=190-262
-remove
-reselect group=7058
-reselect group=4429
-reselect rating=5.0-4.1
-reselect name=Яковлевич
-add Филиппов Борис Лукьянович	6461	4.9	Участник Erasmus+
-add Петрова Устинья Шамильевна	2457	2.6	Участник робототехнических соревнований
-remove
-add Хабарова Камилла Владиславовна	2764	2.6	Иностранный студент (контракт)
-select rating=2.4-4.0
-add Евсеев Нестор Львович	9562	5.0	Член киноклуба
-print
-add Галкин Назар Богданович	6844	2.3	Волонтер чемпионатов
-add Зайцев Ефим Камилевич	7444	3.4	Редактор студгазеты
-reselect name=Демидовна
-select name=Андреевич*
-remove
-reselect group=6316
-select id=353-33
-reselect group=1567
-print
-select group=9622
-add Карпова Алина Фёдоровна	8090	3.8	Перевод с другого факультета
-add Русаков Артём Теодорович	7845	3.7	Участник кейс-чемпионатов
-add Нестеров Радислав Андреевич	4304	3.6	Член литературного клуба
-print
-print
-add Пахомова Диана Эдуардовна	1377	2.3	Организатор благотворительных акций
-print
-remove
-reselect group=3101
-print
-remove
-select id=344-399
-print
-remove
-select name=Тарас
-reselect group=5914
-print
-print
-reselect group=8250
-reselect rating=2.2-4.2
-add Яковлев Ян Артёмович	2651	4.5	Фотокорреспондент
-add Филиппова Нелли Ибрагимовна	9817	4.2	Отсрочка от армии
-add Мамонтов Михаил Харитонович	2718	3.6	Организатор мероприятий
-print
-select id=407-369
-remove
-select rating=4.8-2.4
-remove
-reselect id=385-123
-select id=124-448
-select name=Ивановна
-select group=4076
+reselect name=Анатольевич*
+add Дементьева Инна Богдановна	4439	2.5	Сотрудник университета
 print
 print
 remove
 remove
-reselect name=Тарасовна*
+reselect id=412-314
+print
+select id=86-407
+reselect rating=2.9-3.9
+reselect id=135-391
+select rating=4.1-3.9
+select group=2276
 remove
 remove
+select id=167-108
+reselect rating=4.3-4.6
+add Васильев Фома Камилевич	7768	4.8	Инвалидность 3 группы
 remove
-select id=161-275
+reselect name=Зуева
+print
+select group=8848
+select group=9968
+print
+select name=Артёмовна
+reselect group=9316
+print
+add Маслов Денис Умалатович	5920	3.9	Организатор квестов
+select name=Катарина
+add Лебедева Оливия Михайловна	4083	4.4	Совмещает с работой
+remove
+select group=3646
+remove
+remove
 remove
 print
-reselect id=347-212
+add Горбунова Алина Демидовна	2503	4.6	Участник стартап-проектов
+select rating=2.0-3.5
+reselect name=Валентин
 print
-add Евсеева Валентина Ивановна	2166	3.7	Сотрудник университета
-select group=2152
-add Баранова Кира Игоревна	3555	3.3	Обладатель гранта ректора
-reselect group=1660
-reselect rating=3.1-3.6
+add Иванов Руслан Константинович	2239	3.8	Член экологического движения
+select name=Козлов*
 print
-reselect group=3522
-reselect name=Нелли
-add Юдин Кирилл Геннадьевич	2092	2.8	Участник Erasmus+
-reselect name=Юлия
+print
+add Хохлов Виктор Артурович	1634	4.7	Смена специальности
+remove
+add Данилов Евдоким Олегович	4794	3.9	Участник архитектурных проектов
+add Горбунов Руслан Иванович	3016	4.8	Участник юридических клиник
+select id=4-370
+reselect name=Кира*
+remove
+remove
+select id=55-500
+add Евсеев Зиновий Германович	6622	4.4	Участник юридических клиник
+select id=449-388
+select rating=2.1-3.9
+reselect group=9523
+remove
+add Фомина Наоми Фёдоровна	4452	5.0	Отличник учебы
+print
+reselect rating=2.2-3.8
+remove
+select id=80-169
+select rating=2.1-2.2
+print
+print
+print
+reselect rating=2.3-4.2
+select name=Семенова
+reselect id=85-196
+print
+select group=2830
+select name=Харитонов*
+reselect id=107-182
+add Блинова Тамара Харитоновна	2025	3.7	Совмещает два направления
+remove
+add Жукова Екатерина Михайловна	9762	3.5	Участник модели ООН
+print
+add Овчинникова София Петровна	6161	2.1	Инвалидность 3 группы
+remove
+reselect group=9303
+remove
+reselect group=3808
+remove
+print
+remove
+add Иванова Гелена Николаевна	2384	4.2	Бюджетная основа обучения
+print
+reselect id=448-188
+print
+select group=2660
+reselect group=2693
+print
+select group=7479
+reselect rating=2.1-4.4
+print
 save
 exit
