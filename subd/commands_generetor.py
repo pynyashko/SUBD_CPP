@@ -1,5 +1,5 @@
 commands = [
-    "select", "reselect", "remove", "add", "print"
+    "select", "reselect", "add", "print"
 ]
 
 sign_for_sel_resel = [
