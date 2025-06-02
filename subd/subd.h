@@ -1,4 +1,5 @@
 #pragma once
+#include <iconv.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
