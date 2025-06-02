@@ -92,6 +92,11 @@ void handle_client(int clientSocket) {
             continue;
         }
         try {
+            if (msgLength <= 0) {
+                std::wcerr << L"\033[1;31mНекорректная длина сообщения\033[0m\n";
+                close(clientSocket);
+                return;
+            }
             std::vector<char> buffer(msgLength + 1);
             int totalReceived = 0;
             while (totalReceived != msgLength) {
