@@ -47,7 +47,6 @@ std::string utf16_to_utf8(const std::wstring& wstr) {
     iconv_close(cd);
     return std::string(outBuffer.data(), outBuffer.size() - outBytesLeft);
 }
-}
 
 // -------------------------------------------------- Компараторы для деревьев --------------------------------------------------
 // ------------------- Реализация CompareByName -------------------
