@@ -4,48 +4,16 @@
 
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
-std::wstring utf8_to_utf16(const std::string& utf8) {
-    iconv_t cd = iconv_open("WCHAR_T", "UTF-8");
-    if (cd == (iconv_t)(-1))
-        throw std::runtime_error("iconv_open failed");
-
-    size_t inBytesLeft = utf8.size();
-    size_t outBytesLeft = (utf8.size() + 1) * sizeof(wchar_t);
-    std::vector<char> outBuffer(outBytesLeft);
-
-    char* inBuf = const_cast<char*>(utf8.data());
-    char* outBuf = outBuffer.data();
-
-    if (iconv(cd, &inBuf, &inBytesLeft, &outBuf, &outBytesLeft) == (size_t)-1) {
-        iconv_close(cd);
-        throw std::runtime_error("iconv conversion failed");
-    }
-
-    iconv_close(cd);
-    size_t wcharCount = (outBuffer.size() - outBytesLeft) / sizeof(wchar_t);
-    return std::wstring(reinterpret_cast<wchar_t*>(outBuffer.data()), wcharCount);
+std::wstring utf8_to_utf32(const std::string& utf8) {
+    // Используем стандартный конвертер (C++11, deprecated в C++17, но пока работает)
+    std::wstring_convert<std::codecvt_utf8_utf32<wchar_t>> converter;
+    return converter.from_bytes(utf8);
 }
 
 // Конвертация UTF-16 → UTF-8 (для имени файла)
-std::string utf16_to_utf8(const std::wstring& wstr) {
-    iconv_t cd = iconv_open("UTF-8", "WCHAR_T");
-    if (cd == (iconv_t)(-1))
-        throw std::runtime_error("iconv_open failed");
-
-    size_t inBytesLeft = wstr.size() * sizeof(wchar_t);
-    size_t outBytesLeft = (wstr.size() + 1) * 4; // Max 4 bytes per UTF-8 character
-    std::vector<char> outBuffer(outBytesLeft);
-
-    char* inBuf = reinterpret_cast<char*>(const_cast<wchar_t*>(wstr.data()));
-    char* outBuf = outBuffer.data();
-
-    if (iconv(cd, &inBuf, &inBytesLeft, &outBuf, &outBytesLeft) == (size_t)-1) {
-        iconv_close(cd);
-        throw std::runtime_error("iconv conversion failed");
-    }
-
-    iconv_close(cd);
-    return std::string(outBuffer.data(), outBuffer.size() - outBytesLeft);
+std::string utf32_to_utf8(const std::wstring& wstr) {
+    std::wstring_convert<std::codecvt_utf8_utf32<wchar_t>> converter;
+    return converter.to_bytes(wstr);
 }
 
 // -------------------------------------------------- Компараторы для деревьев --------------------------------------------------
