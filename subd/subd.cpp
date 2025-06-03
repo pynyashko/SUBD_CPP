@@ -4,15 +4,15 @@
 
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
-std::wstring utf8_to_utf32(const std::string& utf8) {
+std::wstring utf8_to_utf16(const std::string& utf8) {
     // Используем стандартный конвертер (C++11, deprecated в C++17, но пока работает)
-    std::wstring_convert<std::codecvt_utf8_utf32<wchar_t>> converter;
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     return converter.from_bytes(utf8);
 }
 
 // Конвертация UTF-16 → UTF-8 (для имени файла)
-std::string utf32_to_utf8(const std::wstring& wstr) {
-    std::wstring_convert<std::codecvt_utf8_utf32<wchar_t>> converter;
+std::string utf16_to_utf8(const std::wstring& wstr) {
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     return converter.to_bytes(wstr);
 }
 
