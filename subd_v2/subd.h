@@ -15,14 +15,8 @@
 #include <codecvt>
 #include <functional>
 
-// -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
-// Конвертация UTF-8 (файл) → UTF-16 (в памяти)
-std::wstring utf8_to_utf16(const std::string& utf8);
-// Конвертация UTF-16 → UTF-8 (для имени файла)
-std::string utf16_to_utf8(const std::wstring& utf16);
 
 // Создаём свою facet-локаль, которая убирает разделители тысяч
-// (в этом ипаном линухе числа выводятся с тысячной запятой даже в файл...)
 class NoSeparator : public std::numpunct<char> {
 protected:
     char do_thousands_sep() const override { return '\0'; }
@@ -31,12 +25,12 @@ protected:
 // Кастомный facet для wide-потоков
 class NoWSeparator : public std::numpunct<wchar_t> {
 protected:
-    wchar_t do_thousands_sep() const override { return L'\0'; }
+    char do_thousands_sep() const override { return L'\0'; }
     std::string do_grouping() const override { return ""; }
 };
 
 // Валидация ФИО (три слова, кириллица, с заглавной буквы)
-bool validate_name(const std::wstring& name);
+bool validate_name(const std::string& name);
 // Валидация группы (целое число > 0)
 bool validate_group(int group);
 // Валидация оценки (2.0 <= x <= 5.0)
@@ -48,10 +42,10 @@ private:
     // Представление сущности студента в БД
     struct Student {
         int id; // уникальный идентификатор
-        wchar_t name[64];
+        char name[64];
         int group;
         double rating;
-        std::wstring info;
+        std::string info;
     };
 private:
     std::vector<Student> students;                   // Все записи
@@ -59,8 +53,8 @@ private:
     struct CompareByName {                                                       // Компаратор для дерева ФИО
         using is_transparent = void;                                             //
         const std::vector<Student>* students_ptr;                                //
-        bool operator()(Index a, const wchar_t* b) const;                        //
-        bool operator()(const wchar_t* a, Index b) const;                        //
+        bool operator()(Index a, const char* b) const;                        //
+        bool operator()(const char* a, Index b) const;                        //
         bool operator()(Index a, Index b) const;                                 //
     };                                                                           //
     std::set<Index, CompareByName> studentsBN{ CompareByName{&students} };       // Записи в дереве по ФИО
@@ -84,24 +78,24 @@ private:
     std::set<Index, CompareByRating> studentsBR{ CompareByRating{&students} };   // Записи в дереве по Оценке
 
     std::vector<size_t> selectedStudents;            // Выбранные записи 
-    std::wstring dbFile;  // Имя файла базы данных
+    std::string dbFile;  // Имя файла базы данных
     int nextId = 1; // для генерации новых id
     size_t version = 0; // версия БД, увеличивается при каждом изменении
     std::vector<std::function<void()>> changeCallbacks; // колбэки для оповещения
 
     // -------------------------------------------------- Приватные функции-помощники --------------------------------------------------
     // Загрузка БД из файла
-    void loadFromFile(const std::wstring& filename);
+    void loadFromFile(const std::string& filename);
 
     // Сохранение БД в файл
-    void saveToFile(const std::wstring& filename);
+    void saveToFile(const std::string& filename);
 
     // Парсинг критериев из команды
     // (строка "name=Кузьмин* group=101-103" разобьется на пары ключ-значение: [field]: value (["name"]: "Кузьмин*", ["group"]: "101-103"))
-    std::map<std::wstring, std::wstring> parseCriteria(const std::wstring& command) const;
+    std::map<std::string, std::string> parseCriteria(const std::string& command) const;
 
     // Проверка соответствия записи критериям (тем самым парам ключ-значение)
-    bool matchesCriteria(const Student& student, const std::map<std::wstring, std::wstring>& criteria) const;
+    bool matchesCriteria(const Student& student, const std::map<std::string, std::string>& criteria) const;
 
 public:
     size_t getVersion() const;
@@ -114,33 +108,33 @@ public:
     void sort();
 
     // Выполнение команды из строки
-    void parseCommand(const std::wstring& full_command);
+    void parseCommand(const std::string& full_command);
 
     // -------------------------------------------------- Работа с файлом БД --------------------------------------------------
     // Выбор файла базы данных
-    void selectDB(const std::wstring& filename);                      // open       <название файла>
+    void selectDB(const std::string& filename);                      // open       <название файла>
 
     // Сохранение базы данных
     void saveDB();                                                    // save
 
     // -------------------------------------------------- Выборка из данных --------------------------------------------------
     // Выборка записей
-    void select(const std::wstring& command);                         // select     <id=<...>, name=<...>, group=<...>, rating=<...>>
+    void select(const std::string& command);                         // select     <id=<...>, name=<...>, group=<...>, rating=<...>>
 
     // Повторная выборка среди выбранных записей
-    void reselect(const std::wstring& command);                       // reselect   <id=<...>, <name=<...>, group=<...>, rating=<...>>
+    void reselect(const std::string& command);                       // reselect   <id=<...>, <name=<...>, group=<...>, rating=<...>>
 
     // Вывод выбранных записей
-    void print(const std::wstring& fields) const;                     // print      <name, group, rating, info> [sort <name/group/rating>]
+    void print(const std::string& fields) const;                     // print      <name, group, rating, info> [sort <name/group/rating>]
 
     // Редактирование выбранных записей (всех)
-    void update(const std::wstring& command);                         // update     <name=<...>, group=<...>, rating=<...>>
+    void update(const std::string& command);                         // update     <name=<...>, group=<...>, rating=<...>>
 
     // Удаление выбранных записей
     void remove();                                                    // remove
 
     // Добавление записи
-    void add(const std::wstring& command);                            // add        <фио>\t<группа>\t<оценка>\t<инфа>
+    void add(const std::string& command);                            // add        <фио>\t<группа>\t<оценка>\t<инфа>
 };
 
 /// Допустимые команды и их использование:

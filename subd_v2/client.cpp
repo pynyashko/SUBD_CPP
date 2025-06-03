@@ -10,7 +10,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 
-const wchar_t* HELP_INFO = LR"(/// Допустимые команды и их использование:
+const char* HELP_INFO = R"(/// Допустимые команды и их использование:
 /// 
 ///    +-----------+--------------------------------------------------------------------------+---------------------------------------------------------------+
 ///    | Команда   | Сигнатура                                                                | Описание                                                      |
@@ -79,7 +79,7 @@ std::map<std::string, std::string> read_config(const std::string& filename) {
 
 int main() {
     std::locale::global(std::locale("en_US.UTF-8"));
-    std::wcout.imbue(std::locale(std::wcout.getloc(), new NoWSeparator));
+    std::cout.imbue(std::locale(std::cout.getloc(), new NoSeparator));
     system("clear");
     std::map<std::string, std::string> config = read_config("client_config.ini");
     std::string server_ip = config["server_ip"];
@@ -88,7 +88,7 @@ int main() {
     while (true) {
         int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (clientSocket < 0) {
-            std::wcerr << L"\033[1;31mОшибка создания сокета\033[0m\n";
+            std::cerr << "\033[1;31mОшибка создания сокета\033[0m\n";
             return 1;
         }
 
@@ -97,40 +97,40 @@ int main() {
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(port);
         if (inet_pton(AF_INET, server_ip.c_str(), &serverAddr.sin_addr) <= 0) {
-            std::wcerr << L"\033[1;31mНеверный адрес\033[0m\n";
+            std::cerr << "\033[1;31mНеверный адрес\033[0m\n";
             close(clientSocket);
             return 1;
         }
 
-        std::wcout << L"Подключение к серверу " << utf8_to_utf16(server_ip) << L":" << port << L"...\n";
+        std::cout << "Подключение к серверу " << utf8_to_utf16(server_ip) << ":" << port << "...\n";
         if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
-            std::wcerr << L"\033[1;31mОшибка подключения. Повторная попытка через 5 секунд...\033[0m\n";
+            std::cerr << "\033[1;31mОшибка подключения. Повторная попытка через 5 секунд...\033[0m\n";
             close(clientSocket);
             sleep(5);
             continue;
         }
 
-        std::wcout << L"Подключено к серверу!\n";
+        std::cout << "Подключено к серверу!\n";
 
         while (true) {
-            std::wstring wmessage;
-            std::wcout << L"\033[1;36mcommand-> \033[0;35m";
-            std::getline(std::wcin, wmessage);
-            std::wcout << L"\033[0m";
+            std::string wmessage;
+            std::cout << "\033[1;36mcommand-> \033[0;35m";
+            std::getline(std::cin, wmessage);
+            std::cout << "\033[0m";
 
-            if (wmessage == L"help") {
-                std::wcout << L"\033[33m" << HELP_INFO << L"\033[0m\n";
+            if (wmessage == "help") {
+                std::cout << "\033[33m" << HELP_INFO << "\033[0m\n";
                 continue;
             }
-            else if (wmessage == L"clear") {
+            else if (wmessage == "clear") {
                 system("clear");
                 continue;
             }
-            else if (wmessage == L"reconnect") {
+            else if (wmessage == "reconnect") {
                 close(clientSocket);
                 break;
             }
-            else if (wmessage == L"exit") {
+            else if (wmessage == "exit") {
                 close(clientSocket);
                 return 0;
             }
@@ -146,27 +146,27 @@ int main() {
                 if (bytesReadPeek > 0 && respLengthPeek == -1) {
                     // Считать уведомление
                     recv(clientSocket, &respLengthPeek, sizeof(int), 0);
-                    std::wcerr << L"\033[1;33mБаза данных была изменена другим пользователем. Вы точно хотите выполнить эту команду? Результат может быть непредсказуемым. (y/n): \033[0m";
-                    std::wstring confirm;
-                    std::getline(std::wcin, confirm);
-                    if (confirm != L"y" && confirm != L"Y" && confirm != L"д" && confirm != L"Д") {
-                        std::wcout << L"\033[1;33mКоманда не отправлена. Введите команду заново.\033[0m\n";
+                    std::cerr << "\033[1;33mБаза данных была изменена другим пользователем. Вы точно хотите выполнить эту команду? Результат может быть непредсказуемым. (y/n): \033[0m";
+                    std::string confirm;
+                    std::getline(std::cin, confirm);
+                    if (confirm != "y" && confirm != "Y" && confirm != "д" && confirm != "Д") {
+                        std::cout << "\033[1;33mКоманда не отправлена. Введите команду заново.\033[0m\n";
                         continue;
                     }
                 }
             }
 
             // Конвертируем в UTF-8 для передачи
-            std::string message = utf16_to_utf8(wmessage);
+            std::string message = wmessage;
             int msgLength = message.size();  // Размер в байтах (не в символах!)
             
             if (send(clientSocket, &msgLength, sizeof(int), 0) < 0) {
-                std::wcerr << L"\033[1;31mОшибка отправки длины сообщения\033[0m\n";
+                std::cerr << "\033[1;31mОшибка отправки длины сообщения\033[0m\n";
                 break;
             }
 
             if (send(clientSocket, message.c_str(), msgLength, 0) < 0) {
-                std::wcerr << L"\033[1;31mОшибка отправки сообщения\033[0m\n";
+                std::cerr << "\033[1;31mОшибка отправки сообщения\033[0m\n";
                 break;
             }
 
@@ -174,11 +174,11 @@ int main() {
             int respLength;
             ssize_t bytesRead = recv(clientSocket, &respLength, sizeof(int), 0);
             if (bytesRead <= 0) {
-                std::wcerr << L"\033[1;31mСервер отключился\033[0m\n";
+                std::cerr << "\033[1;31mСервер отключился\033[0m\n";
                 break;
             }
             if (respLength == -1) {
-                std::wcerr << L"\033[1;33m...База данных была изменена другим пользователем. Повторите выборку или обновите данные.\033[0m\n";
+                std::cerr << "\033[1;33m...База данных была изменена другим пользователем. Повторите выборку или обновите данные.\033[0m\n";
                 continue;
             }
             char* buffer = new char[respLength + 1];
@@ -186,7 +186,7 @@ int main() {
             while (totalReceived != respLength) {
                 bytesRead = recv(clientSocket, buffer + totalReceived, respLength - totalReceived, 0);
                 if (bytesRead <= 0) {
-                    std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
+                    std::cerr << "\033[1;31mОшибка получения ответа\033[0m\n";
                     delete[] buffer;
                     close(clientSocket);
                     break;
@@ -196,8 +196,8 @@ int main() {
             buffer[respLength] = '\0';
 
             // Конвертируем обратно в UTF-16
-            std::wstring wresponse = utf8_to_utf16(buffer);
-            std::wcout << L"\033[33m" << wresponse << L"\033[0m";
+            std::string wresponse = buffer;
+            std::cout << "\033[33m" << wresponse << "\033[0m";
             delete[] buffer;
         }
     }

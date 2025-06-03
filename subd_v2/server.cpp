@@ -16,20 +16,20 @@
 #include <unordered_map>
 
 // Класс для временного перенаправления потока
-class WcoutRedirect {
-    std::wstreambuf* old_buf;
-    std::wstringstream buffer;
+class coutRedirect {
+    std::streambuf* old_buf;
+    std::stringstream buffer;
     
 public:
-    WcoutRedirect() : old_buf(std::wcout.rdbuf()) {
-        std::wcout.rdbuf(buffer.rdbuf());
+    coutRedirect() : old_buf(std::cout.rdbuf()) {
+        std::cout.rdbuf(buffer.rdbuf());
     }
     
-    ~WcoutRedirect() {
-        std::wcout.rdbuf(old_buf);
+    ~coutRedirect() {
+        std::cout.rdbuf(old_buf);
     }
     
-    std::wstring getOutput() const {
+    std::string getOutput() const {
         return buffer.str();
     }
 };
@@ -53,16 +53,15 @@ std::map<std::string, std::string> read_config(const std::string& filename) {
     return config;
 }
 
-std::unordered_map<std::wstring, std::shared_ptr<Database>> db_map;
 std::mutex db_map_mutex;
 std::set<int> client_sockets;
 std::mutex clients_mutex;
-std::unordered_map<std::wstring, std::set<int>> file_clients_map;
+std::unordered_map<std::string, std::set<int>> file_clients_map;
 
 // Для каждого файла: массив экземпляров Database
-std::unordered_map<std::wstring, std::vector<std::shared_ptr<Database>>> db_instances_map;
+std::unordered_map<std::string, std::vector<std::shared_ptr<Database>>> db_instances_map;
 
-void notify_clients_db_update(const std::wstring& filename) {
+void notify_clients_db_update(const std::string& filename) {
     std::lock_guard<std::mutex> lock(clients_mutex);
     auto it = file_clients_map.find(filename);
     if (it != file_clients_map.end()) {
@@ -74,7 +73,7 @@ void notify_clients_db_update(const std::wstring& filename) {
 }
 
 void handle_client(int clientSocket) {
-    std::wstring current_db_file;
+    std::string current_db_file;
     std::shared_ptr<Database> db_ptr;
     {
         std::lock_guard<std::mutex> lock(clients_mutex);
@@ -84,7 +83,7 @@ void handle_client(int clientSocket) {
         int msgLength;
         ssize_t bytesRead = recv(clientSocket, &msgLength, sizeof(int), 0);
         if (bytesRead <= 0) {
-            std::wcerr << L"\033[1;31mКлиент отключился или произошла ошибка\033[0m\n";
+            std::cerr << "\033[1;31mКлиент отключился или произошла ошибка\033[0m\n";
             break;
         }
         if (msgLength == -1) {
@@ -93,7 +92,7 @@ void handle_client(int clientSocket) {
         }
         try {
             if (msgLength <= 0) {
-                std::wcerr << L"\033[1;31mНекорректная длина сообщения\033[0m\n";
+                std::cerr << "\033[1;31mНекорректная длина сообщения\033[0m\n";
                 close(clientSocket);
                 return;
             }
@@ -102,7 +101,7 @@ void handle_client(int clientSocket) {
             while (totalReceived != msgLength) {
                 bytesRead = recv(clientSocket, buffer.data() + totalReceived, msgLength - totalReceived, 0);
                 if (bytesRead <= 0) {
-                    std::wcerr << L"\033[1;31mОшибка получения ответа\033[0m\n";
+                    std::cerr << "\033[1;31mОшибка получения ответа\033[0m\n";
                     close(clientSocket);
                     return;
                 }
@@ -110,14 +109,14 @@ void handle_client(int clientSocket) {
             }
             buffer[msgLength] = '\0';
 
-            std::wstring wmessage = utf8_to_utf16(buffer.data());
-            std::wcout << L"Получено от клиента: " << wmessage << std::endl;
-            std::wstring captured_output;
+            std::string wmessage = buffer.data();
+            std::cout << "Получено от клиента: " << wmessage << std::endl;
+            std::string captured_output;
             {
-                WcoutRedirect redirect;
+                coutRedirect redirect;
                 // Определяем имя файла БД при первой команде open
-                if (wmessage.substr(0, 4) == L"open") {
-                    std::wstring filename = wmessage.substr(5); // open <filename>
+                if (wmessage.substr(0, 4) == "open") {
+                    std::string filename = wmessage.substr(5); // open <filename>
                     std::lock_guard<std::mutex> lock(db_map_mutex);
                     current_db_file = filename;
                     // Создаём новый экземпляр Database для клиента
@@ -146,18 +145,18 @@ void handle_client(int clientSocket) {
                 }
                 else if (!db_ptr) {
                     // Если не был выполнен open, игнорируем команду
-                    captured_output = L"Сначала выполните команду open <файл>";
+                    captured_output = "Сначала выполните команду open <файл>";
                 } else {
                     db_ptr->parseCommand(wmessage);
                     captured_output = redirect.getOutput();
                 }
             }
-            std::string message = utf16_to_utf8(captured_output);
+            std::string message = captured_output;
             int respLength = message.size();
             send(clientSocket, &respLength, sizeof(int), 0);
             send(clientSocket, message.c_str(), respLength, 0);
         } catch (const std::bad_alloc&) {
-            std::wcerr << L"\033[1;31mОшибка выделения памяти (bad_alloc)\033[0m\n";
+            std::cerr << "\033[1;31mОшибка выделения памяти (bad_alloc)\033[0m\n";
             close(clientSocket);
             return;
         }
@@ -185,19 +184,19 @@ void handle_client(int clientSocket) {
 
 int main() {
     std::locale::global(std::locale("en_US.UTF-8"));
-    std::wcout.imbue(std::locale(std::wcout.getloc(), new NoWSeparator));
+    std::cout.imbue(std::locale(std::cout.getloc(), new NoSeparator));
     std::map<std::string, std::string> config = read_config("server_config.ini");
     int port = std::stoi(config["port"]);
     int max_clients = std::stoi(config["max_clients"]);
 
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0) {
-        std::wcerr << L"\033[1;31mОшибка создания сокета\033[0m\n";
+        std::cerr << "\033[1;31mОшибка создания сокета\033[0m\n";
         return 1;
     }
     int opt = 1;
     if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-        std::wcerr << L"\033[1;31mОшибка установки опции SO_REUSEADDR\033[0m\n";
+        std::cerr << "\033[1;31mОшибка установки опции SO_REUSEADDR\033[0m\n";
         close(serverSocket);
         return 1;
     }
@@ -209,30 +208,30 @@ int main() {
     serverAddr.sin_port = htons(port);
 
     if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
-        std::wcerr << L"\033[1;31mОшибка привязки сокета\033[0m\n";
+        std::cerr << "\033[1;31mОшибка привязки сокета\033[0m\n";
         close(serverSocket);
         return 1;
     }
 
     if (listen(serverSocket, max_clients) < 0) {
-        std::wcerr << L"\033[1;31mОшибка прослушивания\033[0m\n";
+        std::cerr << "\033[1;31mОшибка прослушивания\033[0m\n";
         close(serverSocket);
         return 1;
     }
 
-    std::wcout << L"Сервер запущен на порту " << port << L". Ожидание подключений...\n";
+    std::cout << "Сервер запущен на порту " << port << ". Ожидание подключений...\n";
 
     while (true) {
         struct sockaddr_in clientAddr;
         socklen_t clientLen = sizeof(clientAddr);
         int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientLen);
         if (clientSocket < 0) {
-            std::wcerr << L"\033[1;31mОшибка принятия подключения\033[0m\n";
+            std::cerr << "\033[1;31mОшибка принятия подключения\033[0m\n";
             continue;
         }
-        std::wcout << L"Новый клиент подключен: " << utf8_to_utf16(inet_ntoa(clientAddr.sin_addr)) << std::endl;
+        std::cout << "Новый клиент подключен: " << inet_ntoa(clientAddr.sin_addr) << std::endl;
         std::thread([clientSocket]() { handle_client(clientSocket); }).detach();
-        std::wcout << L"Ожидание новых подключений...\n";
+        std::cout << "Ожидание новых подключений...\n";
     }
     close(serverSocket);
     return 0;

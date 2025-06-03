@@ -1,4 +1,5 @@
 #pragma once
+#include <cwchar>
 #include <iconv.h>
 #include <iostream>
 #include <sstream>
@@ -22,7 +23,6 @@ std::wstring utf8_to_utf16(const std::string& utf8);
 std::string utf16_to_utf8(const std::wstring& utf16);
 
 // Создаём свою facet-локаль, которая убирает разделители тысяч
-// (в этом ипаном линухе числа выводятся с тысячной запятой даже в файл...)
 class NoSeparator : public std::numpunct<char> {
 protected:
     char do_thousands_sep() const override { return '\0'; }
@@ -42,7 +42,7 @@ bool validate_group(int group);
 // Валидация оценки (2.0 <= x <= 5.0)
 bool validate_rating(double rating);
 
-// Яро БД
+// Ядро БД
 class Database {
 private:
     // Представление сущности студента в БД
