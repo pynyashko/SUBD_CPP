@@ -4,16 +4,29 @@
 
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
-std::wstring utf8_to_utf16(const std::string& utf8) {
-    // Используем стандартный конвертер (C++11, deprecated в C++17, но пока работает)
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    return converter.from_bytes(utf8);
+std::wstring utf8_to_utf16(const std::string& str) {
+    std::mbstate_t state = std::mbstate_t();
+    const char* src = str.c_str();
+    size_t len = std::mbsrtowcs(nullptr, &src, 0, &state);
+    if (len == static_cast<size_t>(-1)) {
+        throw std::runtime_error("Invalid multibyte sequence");
+    }
+    std::vector<wchar_t> buf(len + 1);
+    std::mbsrtowcs(buf.data(), &src, len, &state);
+    return std::wstring(buf.data(), len);
 }
 
 // Конвертация UTF-16 → UTF-8 (для имени файла)
 std::string utf16_to_utf8(const std::wstring& wstr) {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    return converter.to_bytes(wstr);
+    std::mbstate_t state = std::mbstate_t();
+    const wchar_t* src = wstr.c_str();
+    size_t len = std::wcsrtombs(nullptr, &src, 0, &state);
+    if (len == static_cast<size_t>(-1)) {
+        throw std::runtime_error("Invalid wide character sequence");
+    }
+    std::vector<char> buf(len + 1);
+    std::wcsrtombs(buf.data(), &src, len, &state);
+    return std::string(buf.data(), len);
 }
 
 // -------------------------------------------------- Компараторы для деревьев --------------------------------------------------
