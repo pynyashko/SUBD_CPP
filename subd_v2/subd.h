@@ -22,12 +22,6 @@ protected:
     char do_thousands_sep() const override { return '\0'; }
     std::string do_grouping() const override { return ""; }
 };
-// Кастомный facet для wide-потоков
-class NoWSeparator : public std::numpunct<wchar_t> {
-protected:
-    char do_thousands_sep() const override { return L'\0'; }
-    std::string do_grouping() const override { return ""; }
-};
 
 // Валидация ФИО (три слова, кириллица, с заглавной буквы)
 bool validate_name(const std::string& name);

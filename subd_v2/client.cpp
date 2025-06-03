@@ -102,7 +102,7 @@ int main() {
             return 1;
         }
 
-        std::cout << "Подключение к серверу " << utf8_to_utf16(server_ip) << ":" << port << "...\n";
+        std::cout << "Подключение к серверу " << server_ip << ":" << port << "...\n";
         if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
             std::cerr << "\033[1;31mОшибка подключения. Повторная попытка через 5 секунд...\033[0m\n";
             close(clientSocket);

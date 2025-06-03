@@ -57,7 +57,7 @@ bool Database::CompareByRating::operator()(Index a, Index b) const {
 
 // Валидация ФИО (три слова, кириллица, с заглавной буквы)
 bool validate_name(const std::string& name) {
-    std::regex re(R"(^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+$)");
+    std::regex re("(^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+$)");
     return std::regex_match(name, re);
 }
 // Валидация группы (целое число > 0)
@@ -93,11 +93,11 @@ void Database::loadFromFile(const std::string& filename) {
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string id_str, name;
-        std::getline(iss, id_str, L'\t');
+        std::getline(iss, id_str, '\t');
         bool has_id = std::all_of(id_str.begin(), id_str.end(), ::isdigit);
         if (has_id) {
             temp.id = std::stoi(id_str);
-            std::getline(iss, name, L'\t');
+            std::getline(iss, name, '\t');
         }
         else {
             temp.id = nextId++;
@@ -105,7 +105,7 @@ void Database::loadFromFile(const std::string& filename) {
         }
         // Копируем имя в temp.name, учитывая максимальную длину 64
         strncpy(temp.name, name.c_str(), 63);
-        temp.name[63] = L'\0'; // Гарантируем завершающий нуль
+        temp.name[63] = '\0'; // Гарантируем завершающий нуль
 
         iss >> temp.group >> temp.rating;
         iss.ignore(1);
@@ -138,7 +138,7 @@ void Database::saveToFile(const std::string& filename) {
 
     for (const auto& student : students) {
         std::string name_str(student.name);
-        std::string name_utf8 = name_wstr;
+        std::string name_utf8 = name_str;
         std::string info_utf8 = student.info;
         file << student.id << "\t" << name_utf8 << "\t" << student.group << "\t" << student.rating << "\t" << info_utf8 << "\n";
     }
@@ -328,7 +328,7 @@ void Database::select(const std::string& command) {
         for (size_t i = 0; i < students.size(); ++i) {
             selectedStudents[i] = i;
         }
-        std::cout << L"Выбрано " << selectedStudents.size() << " записей после выборки\n";
+        std::cout << "Выбрано " << selectedStudents.size() << " записей после выборки\n";
         return;
     }
     selectedStudents.clear();
@@ -340,7 +340,7 @@ void Database::select(const std::string& command) {
     for (const auto& crit : criteria) {
         const std::string& field = crit.first;
         const std::string& value = crit.second;
-        if (field == L"id") {
+        if (field == "id") {
             id_criteria = value;
         }
         // --- Поиск по name ---
@@ -521,19 +521,19 @@ void Database::print(const std::string& fields) const {
     size_t sort_pos = fields.find("sort");
     if (sort_pos != std::string::npos) {
         sort_value = fields.substr(sort_pos + 4);
-        sort_value.erase(0, sort_value.find_first_not_of(L" "));
-        sort_value.erase(sort_value.find_last_not_of(L" ") + 1);
+        sort_value.erase(0, sort_value.find_first_not_of(" "));
+        sort_value.erase(sort_value.find_last_not_of(" ") + 1);
     }
     if (!sort_value.empty()) {
         std::sort(output_students.begin(), output_students.end(), [&](size_t a, size_t b) {
             if (sort_value == "name")
-                return wcscmp(students[a].name, students[b].name) <= 0;
+                return strcmp(students[a].name, students[b].name) <= 0;
             else if (sort_value == "group")
                 return students[a].group < students[b].group;
             else if (sort_value == "rating")
                 return students[a].rating < students[b].rating;
             else
-                return wcscmp(students[a].name, students[b].name) <= 0;
+                return strcmp(students[a].name, students[b].name) <= 0;
             });
     }
     // --- Поддержка диапазона вывода: print ... range=начало-конец ---
@@ -544,7 +544,7 @@ void Database::print(const std::string& fields) const {
         size_t dash = fields.find('-', eq);
         if (dash != std::string::npos) {
             std::string start_str = fields.substr(eq, dash - eq);
-            std::string end_str = fields.substr(dash + 1, fields.find_first_of(L" ", dash + 1) - (dash + 1));
+            std::string end_str = fields.substr(dash + 1, fields.find_first_of(" ", dash + 1) - (dash + 1));
             try {
                 range_start = std::stoul(start_str) - 1;
                 range_end = std::stoul(end_str);
@@ -560,15 +560,15 @@ void Database::print(const std::string& fields) const {
         std::string field;
         int fn = 0;
         while (iss >> field) {
-            if (field == "id") ++fn, std::cout << student.id << L"\t";
-            else if (field == "name") ++fn, std::cout << student.name << L"\t";
-            else if (field == "group") ++fn, std::cout << student.group << L"\t";
-            else if (field == "rating") ++fn, std::cout << student.rating << L"\t";
-            else if (field == "info") ++fn, std::cout << student.info << L"\t";
+            if (field == "id") ++fn, std::cout << student.id << "\t";
+            else if (field == "name") ++fn, std::cout << student.name << "\t";
+            else if (field == "group") ++fn, std::cout << student.group << "\t";
+            else if (field == "rating") ++fn, std::cout << student.rating << "\t";
+            else if (field == "info") ++fn, std::cout << student.info << "\t";
             else break;
         }
         if (!fn) std::cout << student.id << "\t" << student.name << "\t" << student.group << "\t" << student.rating << "\t" << student.info;
-        std::cout << L"\n";
+        std::cout << "\n";
     }
 }
 // Редактирование выбранных записей(всех)
@@ -660,7 +660,7 @@ void Database::add(const std::string& command) {
     std::getline(iss, newStudent.info);
     std::string name_str(newStudent.name);
     if (!validate_name(name_str)) {
-        std::wcout << "Ошибка: некорректное ФИО (пример: Иванов Иван Иванович)\n";
+        std::cout << "Ошибка: некорректное ФИО (пример: Иванов Иван Иванович)\n";
         return;
     }
     if (!validate_group(newStudent.group)) {

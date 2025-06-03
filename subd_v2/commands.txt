@@ -1,103 +1,103 @@
 open test_students_db.txt
-select rating=3.3-4.8
-add Жданова Варвара Германовна	6907	2.4	Член философского кружка
-reselect name=Василиса
+select group=7624
 print
-add Рыбаков Дамир Рамирович	6409	3.2	Автор научных статей
-select name=Ушакова
-reselect rating=3.8-3.3
+reselect group=8482
 print
-reselect id=445-238
-add Яковлев Евдоким Станиславович	3161	2.1	Организатор квестов
+add Степанов Эмир Данилович	7461	2.0	Льготная категория
+reselect rating=2.0-4.8
+select id=385-413
+select group=6630
+reselect id=208-279
+reselect id=70-196
+add Иванов Ян Степанович	4519	4.8	Победитель хакатонов
 print
-reselect id=472-228
-add Власова Маргарита Рамировна	6363	2.2	Из многодетной семьи
+select id=253-128
+select name=Никита
+select id=213-430
+add Мельникова Офелия Фёдоровна	5871	3.6	Дистанционное обучение
+add Жданова Юлия Богдановна	3990	3.8	Член IT-клуба
 print
-reselect group=8898
-select rating=4.6-4.5
-add Власов Евгений Юхимович	8007	2.3	Член киноклуба
-reselect rating=2.5-2.2
+reselect group=4178
+add Виноградова Светлана Германовна	7114	3.9	Бюджетная основа обучения
 print
-select name=Сергеевна
-reselect rating=2.4-3.7
-select rating=3.9-3.2
-select rating=2.7-2.9
-reselect rating=3.5-2.6
+reselect group=5641
 print
-add Павлов Валентин Камилевич	4958	5.0	Победитель конкурса стартапов
-select name=Нестерова
+select group=4915
+add Евсеева Нина Глебовна	6598	4.0	Член сообщества data science
+add Ушаков Зураб Зурабович	9059	2.3	Контрактная форма обучения
+reselect id=427-1
 print
-select group=9061
-select rating=3.2-3.0
+select id=476-301
+add Васильев Альберт Леонидович	9824	3.6	Участник медиапроектов
+add Фролова Юлия Эльдаровна	4081	2.8	Участник донорских акций
+add Алексеев Валентин Янович	2310	4.0	Индивидуальный график обучения
+select name=Нестор
+add Устинов Георгий Харитонович	2485	2.6	Автор блога об учебе
 print
-select group=7703
-select rating=2.3-*
-select name=Ярослав*
-add Иванов Виктор Геннадьевич	2342	4.1	Автор блога об учебе
-reselect name=Цезарь*
-reselect rating=4.2-4.0
 print
-add Щербакова Ия Брониславовна	3280	3.0	Член киноклуба
+add Горбунова Кира Платоновна	6626	4.9	Волонтер в детских домах
 print
-add Шубин Эрик Яковлевич	7067	2.8	Участник Erasmus+
+reselect id=400-346
 print
-add Хабарова Божена Филипповна	1164	3.4	Автор блога об учебе
-reselect group=6801
-add Филиппов Фома Юрьевич	2074	2.3	Участник донорских акций
-print
-reselect group=7764
-reselect id=165-220
-reselect group=1646
-reselect group=1274
-add Новикова Снежана Павловна	3464	4.7	Член экологического движения
-add Маслова Виктория Ильинична	5094	2.7	Редактор студгазеты
-reselect id=33-115
-select rating=4.6-4.1
-reselect group=9977
-select id=23-296
-add Белова Божена Дмитриевна	5558	2.3	Член научного общества
-reselect rating=3.8-4.2
-add Щербакова Наталья Владимировна	1924	4.8	Участник археологических экспедиций
-print
-select group=5209
-reselect name=Дарина*
+reselect rating=3.6-2.2
 print
 print
 print
-select rating=4.7-2.8
-select name=Артур*
+select rating=3.8-4.4
+select group=1291
+print
+add Федоров Прохор Валентинович	1258	4.7	Участник AI-проектов
+add Шубина Фатима Петровна	2926	4.6	Участник театральной студии
+reselect rating=2.6-3.3
+add Власова Любовь Юрьевна	5503	3.8	Стипендиат фонда Потанина
+reselect group=1620
+reselect name=Ильинична
+add Васильева София Фёдоровна	2942	4.4	Участник археологических экспедиций
+reselect id=162-359
+reselect rating=3.0-4.1
+reselect group=4734
+print
+reselect rating=2.0-5.0
+select rating=2.2-3.4
+add Ефимова Снежана Петровна	5665	4.3	Модератор конференций
+add Трофимова Жозефина Денисовна	4981	2.6	Участник кейс-чемпионатов
 print
 print
-reselect name=Сазонова
-add Хабаров Богдан Янович	4243	2.3	Победитель Science Slam
+add Власова Надежда Брониславовна	4851	4.3	Языковые курсы
+select rating=2.1-2.5
+add Жилин Глеб Олегович	7428	2.3	Консультант по программированию
+reselect id=107-337
+select rating=4.3-3.2
 print
-reselect group=3319
-select group=6633
+add Бирюкова Оливия Геннадьевна	1484	3.6	Отличник учебы
+add Маслов Теодор Евграфович	5206	2.5	Бюджетная основа обучения
 print
-add Носков Марат Сергеевич	4368	2.8	Волонтер чемпионатов
-print
-add Лыткин Пётр Ефимович	3557	4.7	Член профсоюзной организации
-select id=27-201
-reselect name=Фёдорович*
-select id=413-211
-print
-reselect group=6464
-select rating=3.5-3.7
-reselect name=Николаев
-add Чеботарева Божена Демидовна	8432	4.2	Консультант по программированию
-add Орлов Сергей Дмитриевич	7942	3.6	Член клуба логистов
+add Виноградов Михаил Яковлевич	7815	3.3	Член сборной по шахматам
+select name=Рамирович
+select id=53-355
+add Щеглова Регина Тимофеевна	7832	4.7	Дублирует курс
+reselect id=345-370
+select group=6678
 print
 print
-add Зимина Яна Георгиевна	1239	3.0	Разработчик игр
-add Чернова Светлана Денисовна	4907	3.2	Вечернее отделение
-reselect name=Кузнецова*
-add Князев Евгений Евграфович	9263	3.2	Призер олимпиад
-reselect group=1682
-select rating=2.1-4.7
 print
-reselect group=6643
-select group=7235
-reselect id=479-10
-select group=9124
+print
+reselect id=428-408
+print
+add Жуков Умар Семёнович	4652	3.0	Победитель конкурса эссе
+print
+print
+select rating=4.9-3.2
+select group=3601
+print
+print
+print
+print
+select rating=5.0-3.4
+select group=1779
+reselect rating=3.0-2.3
+reselect rating=2.9-4.0
+add Зайцева Жасмин Вячеславовна	3354	4.5	Родитель-одиночка
+reselect group=5515
 save
 exit
