@@ -4,16 +4,31 @@
 
 // -------------------------------------------------- Функции перевода строк из разных кодировок --------------------------------------------------
 // Конвертация UTF-8 (файл) → UTF-16 (в памяти)
-std::wstring utf8_to_utf16(const std::string& utf8) {
-    // Используем стандартный конвертер (C++11, deprecated в C++17, но пока работает)
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    return converter.from_bytes(utf8);
+std::wstring utf8_to_utf16(const std::string& input) {
+
+    // Определим размер буфера для результата
+    size_t size = std::mbstowcs(nullptr, input.c_str(), 0);
+    if (size == static_cast<size_t>(-1)) {
+        throw std::runtime_error("Conversion to wide string failed.");
+    }
+
+    std::wstring result(size, L'\0');
+    std::mbstowcs(&result[0], input.c_str(), size);
+    return result;
 }
 
 // Конвертация UTF-16 → UTF-8 (для имени файла)
-std::string utf16_to_utf8(const std::wstring& wstr) {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    return converter.to_bytes(wstr);
+std::string utf16_to_utf8(const std::wstring& input) {
+
+    // Определим размер необходимого буфера
+    size_t size = std::wcstombs(nullptr, input.c_str(), 0);
+    if (size == static_cast<size_t>(-1)) {
+        throw std::runtime_error("Conversion to narrow string failed.");
+    }
+
+    std::string result(size, '\0');
+    std::wcstombs(&result[0], input.c_str(), size);
+    return result;
 }
 
 // -------------------------------------------------- Компараторы для деревьев --------------------------------------------------
