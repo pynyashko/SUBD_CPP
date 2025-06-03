@@ -1,4 +1,5 @@
 #include "subd.h"
+#include <boost/regex.hpp>
 #include <regex>
 #include <typeinfo>
 
@@ -57,7 +58,7 @@ bool Database::CompareByRating::operator()(Index a, Index b) const {
 
 // Валидация ФИО (три слова, кириллица, с заглавной буквы)
 bool validate_name(const std::string& name) {
-    std::regex re("(^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+$)");
+    std::regex re("(^[А-ЯЁ][а-яё]*\\s+[А-ЯЁ][а-яё]*\\s+[А-ЯЁ][а-яё]*$)");
     return std::regex_match(name, re);
 }
 // Валидация группы (целое число > 0)
