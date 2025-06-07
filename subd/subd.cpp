@@ -1,4 +1,5 @@
 #include "subd.h"
+#include <cwchar>
 #include <regex>
 #include <typeinfo>
 

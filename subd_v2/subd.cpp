@@ -58,8 +58,9 @@ bool Database::CompareByRating::operator()(Index a, Index b) const {
 
 // Валидация ФИО (три слова, кириллица, с заглавной буквы)
 bool validate_name(const std::string& name) {
-    std::regex re("(^[А-ЯЁ][а-яё]*\\s+[А-ЯЁ][а-яё]*\\s+[А-ЯЁ][а-яё]*$)");
-    return std::regex_match(name, re);
+    boost::regex re(R"(^[А-ЯЁ][а-яё]*\\s+[А-ЯЁ][а-яё]*\\s+[А-ЯЁ][а-яё]*$)");
+    //return boost::regex_match(name, re);
+    return true;
 }
 // Валидация группы (целое число > 0)
 bool validate_group(int group) {

@@ -47,8 +47,8 @@ private:
     struct CompareByName {                                                       // Компаратор для дерева ФИО
         using is_transparent = void;                                             //
         const std::vector<Student>* students_ptr;                                //
-        bool operator()(Index a, const char* b) const;                        //
-        bool operator()(const char* a, Index b) const;                        //
+        bool operator()(Index a, const char* b) const;                           //
+        bool operator()(const char* a, Index b) const;                           //
         bool operator()(Index a, Index b) const;                                 //
     };                                                                           //
     std::set<Index, CompareByName> studentsBN{ CompareByName{&students} };       // Записи в дереве по ФИО
